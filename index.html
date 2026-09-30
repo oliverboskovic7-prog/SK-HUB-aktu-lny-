@@ -9,10 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f6f8;--card:#fff;--ink:#25252b;--muted:#6b6b76;--line:#e8e8ee;--pink:#d3277f;--pink-soft:#fbe6f1;--green:#4c9a2a;--blue:#2b6cb0;--shadow:0 2px 10px rgba(30,20,40,.07);
+:root{--bg:#f6f6f8;--card:#fff;--ink:#25252b;--muted:#6b6b76;--line:#e8e8ee;--pink:#d3277f;--pink-soft:#fbe6f1;--green:#4c9a2a;--shadow:0 2px 10px rgba(30,20,40,.07);
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16161a;--card:#202026;--ink:#f1f1f4;--muted:#a2a2ae;--line:#33333c;--pink:#ee4d9b;--pink-soft:#3a1c2d;--green:#63b53f;--blue:#63b3ed;--shadow:none}}
-:root[data-theme="dark"]{--bg:#16161a;--card:#202026;--ink:#f1f1f4;--muted:#a2a2ae;--line:#33333c;--pink:#ee4d9b;--pink-soft:#3a1c2d;--green:#63b53f;--blue:#63b3ed;--shadow:none}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16161a;--card:#202026;--ink:#f1f1f4;--muted:#a2a2ae;--line:#33333c;--pink:#ee4d9b;--pink-soft:#3a1c2d;--green:#63b53f;--shadow:none}}
+:root[data-theme="dark"]{--bg:#16161a;--card:#202026;--ink:#f1f1f4;--muted:#a2a2ae;--line:#33333c;--pink:#ee4d9b;--pink-soft:#3a1c2d;--green:#63b53f;--shadow:none}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 a{color:var(--pink);text-decoration:none}a:hover{text-decoration:underline}
@@ -82,30 +82,6 @@ h2::after{content:"";display:block;width:38px;height:4px;border-radius:4px;backg
 .calc-res{background:var(--pink-soft);border-radius:12px;padding:16px;margin-top:20px;text-align:center}
 .calc-res .val{font-size:32px;font-weight:800;color:var(--pink);display:block;margin-top:4px}
 
-/* NOVO PREROBENÁ ARGUMENTÁCIA (MODERN MATRIX) */
-.arg-container{display:flex;flex-direction:column;gap:18px}
-.arg-topbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:var(--card);padding:14px;border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow)}
-.arg-topbar input{flex:1;min-width:220px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);font:inherit;background:var(--bg);color:var(--ink)}
-.arg-filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;width:100%}
-.arg-chip{background:var(--bg);border:1px solid var(--line);padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.15s}
-.arg-chip.active, .arg-chip:hover{background:var(--pink);color:#fff;border-color:var(--pink)}
-
-.arg-card-list{display:flex;flex-direction:column;gap:16px}
-.arg-item{background:var(--card);border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden;transition:border-color 0.2s}
-.arg-item:hover{border-color:var(--pink)}
-.arg-head{padding:16px 20px;background:var(--pink-soft);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
-.arg-head .q-text{font-family:Sora,sans-serif;font-weight:700;font-size:18px;color:var(--ink)}
-.arg-head .cat-badge{font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;background:#fff;color:var(--pink);box-shadow:0 1px 3px rgba(0,0,0,0.05)}
-
-.arg-body{padding:20px;display:flex;flex-direction:column;gap:14px}
-.arg-variant{background:var(--bg);border-radius:12px;padding:16px;border-left:4px solid var(--pink)}
-.arg-variant.secondary{border-left-color:var(--blue)}
-.arg-v-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.arg-v-title span.tag{background:rgba(0,0,0,0.05);padding:2px 6px;border-radius:4px;font-size:11px}
-.arg-speech{font-size:15px;line-height:1.6}
-.arg-speech b{color:var(--pink);font-weight:700;background:rgba(211,39,127,0.08);padding:0 4px;border-radius:4px}
-.arg-variant.secondary .arg-speech b{color:var(--blue);background:rgba(43,108,176,0.08)}
-
 .hide{display:none!important}
 #none{color:#fff;margin-top:10px;font-weight:600}
 footer{padding:32px 0 48px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
@@ -121,7 +97,25 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:14px;border-top:1px soli
 .st.mir div{border-left-color:var(--green)}
 .st b{display:block;font-family:Sora,Inter,sans-serif}.st span{color:var(--muted);font-size:15px}
 
-h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
+.deck{max-width:760px}.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.tools .search{max-width:none;flex:1;min-width:200px;padding:11px 16px;font-size:15px;box-shadow:none;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font:inherit;font-size:14px;color:var(--ink)}
+button.pill{cursor:pointer}
+.fc{display:block;width:100%;min-height:260px;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-top:4px solid var(--pink);border-radius:20px;padding:24px;box-shadow:var(--shadow);cursor:pointer;position:relative;overflow:hidden}
+.fc.back{border-top-color:var(--green)}
+.fc>*{position:relative;z-index:1}
+.fc:not(.back)::after{content:"\201C";position:absolute;right:18px;bottom:-56px;font:800 220px/1 Sora,sans-serif;color:var(--pink-soft);z-index:0}
+.fc .cat{display:inline-block;font-size:13px;font-weight:700;color:var(--pink);background:var(--pink-soft);padding:4px 12px;border-radius:999px}
+.fc .q{display:block;font-size:clamp(20px,3vw,28px);font-weight:700;text-align:center;margin:30px 0 16px;letter-spacing:-.02em}
+.fc .hint{text-align:center;color:var(--muted);font-size:14px}
+.fc .h{font-weight:700;color:var(--green);margin-bottom:4px}
+.ans{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px}
+.ans .t{display:inline-block;font-size:12px;font-weight:700;color:#fff;padding:3px 10px;border-radius:6px;background:var(--pink);margin-right:8px}
+.ans .t.b2{background:#3b5bdb}.ans small{color:var(--muted)}.ans .txt{margin-top:8px;font-weight:600}
+.nav3{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;margin-top:12px}
+.nav3 .pill{padding:14px;text-align:center;font-weight:600}.nav3 .main{background:var(--pink);color:#fff;border-color:var(--pink);box-shadow:0 8px 20px rgba(211,39,127,.3)}
+
+h1,h2,.logo,.fc .q,.chip{font-family:Sora,Inter,system-ui,sans-serif}
 @media(max-width:640px){nav{display:flex}}
 </style>
 </head>
@@ -164,7 +158,7 @@ h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
         <a href="https://srovnejto.daktela.com/dashboard/" target="_blank" rel="noopener" data-s="dashboard daktela"><span class="ic">📊</span><span class="tx">Dashboard<small>Daktela</small></span></a>
         <a href="https://nf.klik.sk/poistenie-domov-domacnosti-porovnanie-kalkulacka/" target="_blank" rel="noopener" data-s="kalkulačka klik"><span class="ic">🧮</span><span class="tx">Kalkulačka Klik<small>Poistenie domu, bytu a domácnosti</small></span></a>
         <a href="https://sp.nfhub.sk/poistenie-domov-domacnosti-porovnanie-kalkulacka/" target="_blank" rel="noopener" data-s="kalkulačka superpoistenie"><span class="ic">🧮</span><span class="tx">Kalkulačka SuperPoistenie<small>Poistenie domu, bytu a domácnosti</small></span></a>
-        <a href="https://www.netfinancie.sk/poistenie-domov-domacnosti-porovnanie-kalkulacka/" target="_blank" rel="noopener" data-s="kalkulačka netfinancie"><span class="ic">🧮</span><span class="tx">Kalkulačka Netfinancie<small>Porovnanie poistenia nehnuteľnosti</small></span></a>
+        <a href="https://www.netfinancie.com/poistenie-domov-domacnosti-porovnanie-kalkulacka/" target="_blank" rel="noopener" data-s="kalkulačka netfinancie"><span class="ic">🧮</span><span class="tx">Kalkulačka Netfinancie<small>Porovnanie poistenia nehnuteľnosti</small></span></a>
         <a href="https://zbgis.skgeodesy.sk/mapka/sk/kataster?pos=47.928408,18.207431,15" target="_blank" rel="noopener" data-s="kataster nehnuteľnosti"><span class="ic">🗺️</span><span class="tx">Kataster nehnuteľností<small>Mapa ZBGIS</small></span></a>
         <a href="https://www.netfinancie.com/vypoved-poistnej-zmluvy/poistenie-nehnutelnosti/" target="_blank" rel="noopener" data-s="výpoveď vzor"><span class="ic">🧮</span><span class="tx">Výpoveď poistenia nehnuteľnosti<small>Vzor od Netfinancie</small></span></a>
       </div>
@@ -314,26 +308,22 @@ h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
       </div>
     </div>
 
-    <!-- TAB 7: ARGUMENTY (MODERN MATRIX DESIGN) -->
+    <!-- TAB 7: ARGUMENTY -->
     <div id="tab-argumenty" class="tab-page">
-      <h2>Argumentačné karty a námietky</h2>
-      <p class="sub">Vyber si typ námietky alebo si vyhľadaj presnú frázu. Kľúčové slova sú zvýraznené pre okamžité prečítanie.</p>
+      <h2>Argumentačné karty</h2>
+      <p class="sub">Klient povie námietku, ty si odpoveď skús povedať sám a potom kartu otoč. (Fungujú aj šípky na klávesnici)</p>
       
-      <div class="arg-container" data-s="argumenty námietky porovnanie hypotéka podpoistenie čas zmluva">
-        <div class="arg-topbar">
-          <input id="arg-search" type="search" placeholder="Hľadať v námietkach (napr. mail, banka, drahé)...">
-          <div class="arg-filters" id="arg-filter-chips">
-            <span class="arg-chip active" data-filter="all">Všetko</span>
-            <span class="arg-chip" data-filter="Čas">Čas / E-mail</span>
-            <span class="arg-chip" data-filter="Hypotéka">Banka / Hypotéka</span>
-            <span class="arg-chip" data-filter="Stará zmluva">Stará zmluva</span>
-            <span class="arg-chip" data-filter="Platba">Práve zaplatené</span>
-            <span class="arg-chip" data-filter="Dôvera">Nedôvera</span>
-          </div>
+      <div class="deck" data-s="argumentácia námietky karty">
+        <div class="tools">
+          <input id="cq" class="search" type="search" placeholder="Hľadať v námietkach..." aria-label="Hľadať v námietkach">
+          <span id="cnt" class="pill"></span>
+          <button id="shuf" class="pill" type="button">Zamiešať</button>
         </div>
-
-        <div class="arg-card-list" id="arg-list">
-          <!-- Dynamicky sa vykresľuje cez JS -->
+        <div id="deck"></div>
+        <div class="nav3">
+          <button id="prv" class="pill" type="button">Predošlá</button>
+          <button id="flp" class="pill main" type="button">Otočiť kartu</button>
+          <button id="nxt" class="pill" type="button">Ďalšia</button>
         </div>
       </div>
     </div>
@@ -461,133 +451,78 @@ function switchTab(tabId) {
   }
 })();
 
-// NEW ARGUMENTATION ENGINE (SÚHRN STARÝCH AJ NOVÝCH ARGUMENTOV V MODERNOM KÓDE)
+// Flashcard Script (Rozšírené argumentačné karty)
 (function(){
-  var data = [
+  var all = [
     {
-      cat: 'Čas',
-      q: 'Nemám teraz čas to riešiť, pošlite mi to do mailu.',
-      v: [
-        {
-          t: 'Rýchly prechod na hovor (45s)',
-          sub: 'Priamy obchod',
-          txt: 'Úplne rozumiem, šetrím Váš čas. V maile by ste videli len všeobecný leták. Dajte mi <b>45 sekúnd</b> na 2 základné otázky a pošlem Vám ponuku presne na mieru. <b>Máte byt alebo rodinný dom?</b>'
-        },
-        {
-          t: 'Ošetrenie e-mailu / Spätný hovor',
-          sub: 'Naplánovanie',
-          txt: 'Mailom Vám viem poslať všeobecnú ponuku. Aby tam neboli blbosti, kedy Vám môžem na 2 minúty brnknúť pri poistke? <b>Zajtra dopoludnia alebo skôr okolo štvrtej?</b>'
-        }
+      c:'Platba a zmluva',
+      q:'Teraz som to zaplatil na rok dopredu.',
+      a:[
+        ['Ťah na bránku','Priamy obchod','Zmluvu vieme vypovedať s vrátením nespotrebovaného poistného do 2 mesiacov od zjednania. Pozrieme sa, či Vám neušetríme peniaze už na tento rok?',0],
+        ['Preklopenie','Zjemnenie / Pripomienka','Jasné, rozumiem. Poznačím si Vás pred koncom poistného obdobia a porovnáme ponuky s predstihom, môže byť?',1]
       ]
     },
     {
-      cat: 'Stará zmluva',
-      q: 'Mám starú zmluvu už 10 rokov a som spokojný.',
-      v: [
-        {
-          t: 'Karta PODPOISTENIE (Riziko)',
-          sub: 'Ceny stavebných materiálov',
-          txt: 'To je super, že máte poistku vyriešenú. Ceny stavebných materiálov však vyleteli o 80 %. <b>Ak by Vám dnes vyhorela strecha, zaplatí Vám stará zmluva novú, alebo len polovicu?</b> Pozrieme sa na reálnu dnešnú hodnotu nehnuteľnosti?'
-        }
+      c:'Hypotéka a banka',
+      q:'Mám to poistené priamo v banke k hypotéke.',
+      a:[
+        ['Argument krytia','Banka vs. Špecialista','Banky často dávajú len základné balíčky, ktoré nepokrývajú podpoistenie alebo zodpovednosť. Preveríme, či nemáte zbytočne drahé alebo nedostatočné krytie?',0],
+        ['Vinkulácia','Rýchle vybavenie','Vinkuláciu pre Vašu banku vybavíme kompletne za Vás bez poplatkov, len vymeníme poisťovňu za výhodnejšiu.',1]
       ]
     },
     {
-      cat: 'Hypotéka',
-      q: 'Mám to poistené priamo v banke k hypotéke.',
-      v: [
-        {
-          t: 'Podpoistenie úveru vs. Hodnota nehnuteľnosti',
-          sub: 'Chráni banku alebo Vás?',
-          txt: 'Banka poistku nastavila len na <b>výšku úveru, nie na hodnotu domu</b>. Ak má dom hodnotu 250-tisíc a úver je 100-tisíc, pri škode dostane banka svoje a Vám nezostane nic. <b>Chcete chrániť banku alebo Váš majetok?</b>'
-        },
-        {
-          t: 'Vinkulácia a servis zadarmo',
-          sub: 'Rýchle vybavenie',
-          txt: 'Všetky tlačivá pre banku (vinkuláciu) <b>vybavíme kompletne za Vás bez poplatkov</b>. Vy len ušetríte desiatky eur ročne. Pozrieme sa na čísla?'
-        }
+      c:'Nedôvera / Súkromie',
+      q:'Poisťovne aj tak nikdy nič nezaplatia, sú to vyhodené peniaze.',
+      a:[
+        ['Pochopenie','Presné podmienky','Rozumiem Vašej skúsenosti. Problém býva často v zlom nastavení poistných súm alebo podpoistení. Práve preto spoločne nastavíme zmluvu tak, aby tam neboli žiadne kľučky.',0]
       ]
     },
     {
-      cat: 'Platba',
-      q: 'Teraz som to zaplatil na rok dopredu, už je neskoro.',
-      v: [
-        {
-          t: 'Vrátenie nespotrebovaného poistného',
-          sub: 'Alikvotná časť',
-          txt: 'To vôbec nevadí! Zákon Vám umožňuje zmluvu vypovedať a <b>poisťovňa Vám vráti presný zvyšok zaplatených peňazí</b> na účet. Ak Vám nájdeme lepšie krytie a ešte ušetríte, má zmysel sa na to pozrieť?'
-        }
+      c:'Čas a zaneprázdnenosť',
+      q:'Nemám teraz čas to riešiť, pošlite mi to do mailu.',
+      a:[
+        ['Rýchlosť hovoru','Priechod na hovor','Mailom Vám viem poslať len všeobecnú ponuku. Keď mi dáte 2 minúty na 3 základné otázky, pošlem Vám ponuku presne na mieru Vašej nehnuteľnosti.',0]
       ]
     },
     {
-      cat: 'Dôvera',
-      q: 'Poisťovne aj tak nikdy nič nezaplatia, sú to vyhodené peniaze.',
-      aClass: 'secondary',
-      v: [
-        {
-          t: 'Pochopenie + Nastavenie bez výluk',
-          sub: 'Kvalita zmluvy',
-          txt: 'Rozumiem Vašej skúsenosti. Problém býva často v zlom nastavení poistných súm alebo podpoistení. Práve preto spoločne <b>prejdeme zmluvu riadok po riadku, aby ste presne vedeli, za čo platíte</b>. Kedy ste naposledy aktualizovali poistné sumy?'
-        }
+      c:'Stará zmluva',
+      q:'Mám starú zmluvu už 10 rokov a som spokojný.',
+      a:[
+        ['Riziko podpoistenia','Aktualizácia hodnôt','Za 10 rokov stúpla hodnota nehnuteľností aj o 100 %. Ak by sa niečo stalo, stará zmluva Vám dnes zaplatí len polovicu škody. Pozrieme sa na reálnu dnešnú hodnotu?',0]
       ]
     }
   ];
 
-  var currentFilter = 'all';
-  var listHost = document.getElementById('arg-list');
-  var searchInput = document.getElementById('arg-search');
-  var filterChips = document.querySelectorAll('.arg-chip');
-
-  function render(){
-    var s = searchInput ? searchInput.value.toLowerCase().trim() : '';
-    listHost.innerHTML = '';
-
-    var filtered = data.filter(function(item){
-      var matchCat = (currentFilter === 'all') || (item.cat === currentFilter);
-      var matchSearch = !s || (item.q + ' ' + item.cat + ' ' + JSON.stringify(item.v)).toLowerCase().indexOf(s) > -1;
-      return matchCat && matchSearch;
-    });
-
-    if(!filtered.length){
-      listHost.innerHTML = '<div style="padding:20px; background:var(--card); border-radius:12px; text-align:center; color:var(--muted)">Nenašli sa žiadne zodpovedajúce argumenty.</div>';
-      return;
-    }
-
-    filtered.forEach(function(item){
-      var card = document.createElement('div');
-      card.className = 'arg-item';
-      
-      var html = '<div class="arg-head"><span class="q-text">„' + item.q + '“</span><span class="cat-badge">' + item.cat + '</span></div>';
-      html += '<div class="arg-body">';
-
-      item.v.forEach(function(v, idx){
-        var isSec = idx > 0 ? ' secondary' : '';
-        html += '<div class="arg-variant' + isSec + '">';
-        html += '<div class="arg-v-title"><span>' + v.t + '</span><span class="tag">' + v.sub + '</span></div>';
-        html += '<div class="arg-speech">' + v.txt + '</div>';
-        html += '</div>';
-      });
-
-      html += '</div>';
-      card.innerHTML = html;
-      listHost.appendChild(card);
-    });
+  var list = all.slice(), i = 0, back = false, host = document.getElementById('deck'), cnt = document.getElementById('cnt');
+  
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  
+  function draw(){
+    if(!list.length){host.innerHTML='<div class="card">Nič sa nenašlo.</div>';cnt.textContent='Karta 0 z 0';return}
+    var c=list[i];cnt.textContent='Karta '+(i+1)+' z '+list.length;
+    host.innerHTML=back?'<button class="fc back" type="button"><span class="h">Argumentácia a reakcia</span>'+c.a.map(function(a){return '<span class="ans"><span class="t'+(a[3]?' b2':'')+'">'+esc(a[0])+'</span><small>('+esc(a[1])+')</small><span class="txt">'+esc(a[2])+'</span></span>'}).join('')+'</button>':'<button class="fc" type="button"><span class="cat">'+esc(c.c)+'</span><span class="q">„'+esc(c.q)+'“</span><span class="hint">Klikni na kartu a zobrazí sa odpoveď</span></button>';
+    host.firstChild.onclick=function(){back=!back;draw()}
   }
-
-  if(listHost){
-    filterChips.forEach(function(chip){
-      chip.addEventListener('click', function(){
-        filterChips.forEach(function(c){ c.classList.remove('active'); });
-        chip.classList.add('active');
-        currentFilter = chip.getAttribute('data-filter');
-        render();
-      });
+  
+  function go(d){if(!list.length)return;i=(i+d+list.length)%list.length;back=false;draw()}
+  
+  if(document.getElementById('nxt')){
+    document.getElementById('nxt').onclick=function(){go(1)};
+    document.getElementById('prv').onclick=function(){go(-1)};
+    document.getElementById('flp').onclick=function(){if(list.length){back=!back;draw()}};
+    document.getElementById('shuf').onclick=function(){for(var k=list.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),t=list[k];list[k]=list[j];list[j]=t}i=0;back=false;draw()};
+    document.getElementById('cq').addEventListener('input',function(e){var v=e.target.value.toLowerCase().trim();list=all.filter(function(c){return !v||(c.q+' '+c.c+' '+c.a.map(function(a){return a[2]}).join(' ')).toLowerCase().indexOf(v)>-1});i=0;back=false;draw()});
+    
+    // Klávesové skratky pre rýchlejšie ovládanie pri hovore
+    document.addEventListener('keydown', function(e) {
+      if (document.getElementById('tab-argumenty').classList.contains('active') && document.activeElement.tagName !== 'INPUT') {
+        if (e.key === 'ArrowRight') go(1);
+        if (e.key === 'ArrowLeft') go(-1);
+        if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); if(list.length){back=!back;draw();} }
+      }
     });
 
-    if(searchInput){
-      searchInput.addEventListener('input', render);
-    }
-
-    render();
+    draw();
   }
 })();
 </script>
