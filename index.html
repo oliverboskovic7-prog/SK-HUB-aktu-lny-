@@ -229,7 +229,7 @@ h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
 .dm-f{display:grid;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .dm-f input,.dm-f select{font:inherit;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
 .dm-msg{color:var(--muted);font-size:14px;margin:6px 0}.dm-msg.err{color:#c0262d}
-.dm-lo{display:block;margin:0 0 10px auto;font-size:13px;background:none!important;color:var(--muted)!important;text-decoration:underline}
+.dm-lo{border:0;cursor:pointer;display:block;margin:0 0 10px auto;font-size:13px;background:none!important;color:var(--muted)!important;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -888,7 +888,7 @@ function tr(t){var m=t.match(/^(\s*)([\s\S]*?)(\s*)$/),c=m[2];if(!c)return t;
 
 <div id="dm" class="dm hide" role="dialog" aria-modal="true" aria-label="Dokumenty">
  <div class="dm-box">
-  <div class="dm-top"><h2>Dokumenty</h2><button type="button" class="dm-x" id="dm-x" aria-label="Zavrieť">✕</button></div>
+  <div class="dm-top"><h2>Dokumenty <small style="font-weight:400;color:var(--muted);font-size:12px">v3</small></h2><button type="button" class="dm-x" id="dm-x" aria-label="Zavrieť">✕</button></div>
   <div class="dm-tabs"><button type="button" id="dm-t-operator" class="on">Operátor</button><button type="button" id="dm-t-vedenie">Vedenie</button></div>
   <div id="dm-body" data-notr></div>
  </div>
@@ -941,7 +941,7 @@ function loginForm(){
   var f=el('div','dm-f'),e=el('input'),p=el('input'),b=el('button',null,L.in),st=msg('');
   f.style.borderTop='0';e.type='email';e.placeholder=L.mail;e.autocomplete='username';p.type='password';p.placeholder=L.pass;p.autocomplete='current-password';b.type='button';
   function go(){sb.auth.signInWithPassword({email:e.value.trim(),password:p.value}).then(function(r){
-    if(r.error){st.textContent=L.bad;st.className='dm-msg err';return;}user=r.data.user;show();});}
+    if(r.error){st.textContent=L.bad+' ['+r.error.message+']';st.className='dm-msg err';return;}user=r.data.user;show();});}
   b.onclick=go;p.onkeydown=function(ev){if(ev.key==='Enter')go();};
   [e,p,b,st].forEach(function(x){f.appendChild(x);});body.appendChild(f);
 }
