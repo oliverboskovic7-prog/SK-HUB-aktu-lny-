@@ -896,13 +896,13 @@ function tr(t){var m=t.match(/^(\s*)([\s\S]*?)(\s*)$/),c=m[2];if(!c)return t;
 
 <script>
 (function(){
-var SB_URL='https://nattqgydzbteovqqhesh.supabase.co', SB_KEY='SEM_VLOZ_PUBLISHABLE_KEY';
+var SB_URL='https://nattqgydzbteovqqhesh.supabase.co', SB_KEY='sb_publishable_ni91FmzePny39ABnq3zPqw_-SMKLglS';
 var L={login:'Prihlásenie pre vedenie',mail:'E-mail',pass:'Heslo',in:'Prihlásiť',out:'Odhlásiť',empty:'Zatiaľ tu nie sú žiadne dokumenty.',open:'Otvoriť',del:'Zmazať',up:'Nahrať dokument',name:'Názov (nepovinné)',go:'Nahrať',conf:'Naozaj zmazať dokument?',bad:'Nesprávny e-mail alebo heslo.',noadmin:'Nepodarilo sa uložiť.',back:'Späť',cfg:'Dokumenty ešte nie sú prepojené (chýba kľúč v kóde).',err:'Nepodarilo sa načítať. Skús znova.',vhint:'Po prihlásení uvidíš aj dokumenty pre vedenie a môžeš nahrávať.'};
 var sb=null,sec='operator',user=null,m=document.getElementById('dm'),body=document.getElementById('dm-body');
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
 function msg(t,err){var p=el('p','dm-msg'+(err?' err':''),t);return p;}
 function init(cb){
-  if(SB_KEY.indexOf('SEM_')===0){body.textContent='';body.appendChild(msg(L.cfg,true));return;}
+  if(!SB_KEY){body.textContent='';body.appendChild(msg(L.cfg,true));return;}
   if(sb)return cb();
   var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
   s.onload=function(){sb=supabase.createClient(SB_URL,SB_KEY);sb.auth.getSession().then(function(r){user=r.data.session?r.data.session.user:null;cb();});};
