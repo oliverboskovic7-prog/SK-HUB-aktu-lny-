@@ -843,13 +843,13 @@ function switchTab(tabId) {
 
 <script>
 (function(){
-var SB_URL='https://nattqgydzbteovqqhesh.supabase.co', SB_KEY='SEM_VLOZ_PUBLISHABLE_KEY';
+var SB_URL='https://nattqgydzbteovqqhesh.supabase.co', SB_KEY='sb_publishable_ni91FmzePny39ABnq3zPqw_-SMKLglS';
 var L={login:'Přihlášení pro vedení',mail:'E-mail',pass:'Heslo',in:'Přihlásit',out:'Odhlásit',empty:'Zatím tu nejsou žádné dokumenty.',open:'Otevřít',del:'Smazat',up:'Nahrát dokument',name:'Název (nepovinné)',go:'Nahrát',conf:'Opravdu smazat dokument?',bad:'Nesprávný e-mail nebo heslo.',noadmin:'Nepodařilo se uložit.',back:'Zpět',cfg:'Dokumenty ještě nejsou propojené (chybí klíč v kódu).',err:'Nepodařilo se načíst. Zkus znovu.',vhint:'Po přihlášení uvidíš i dokumenty pro vedení a můžeš nahrávat.'};
 var sb=null,sec='operator',user=null,m=document.getElementById('dm'),body=document.getElementById('dm-body');
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
 function msg(t,err){var p=el('p','dm-msg'+(err?' err':''),t);return p;}
 function init(cb){
-  if(SB_KEY.indexOf('SEM_')===0){body.textContent='';body.appendChild(msg(L.cfg,true));return;}
+  if(!SB_KEY){body.textContent='';body.appendChild(msg(L.cfg,true));return;}
   if(sb)return cb();
   var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
   s.onload=function(){sb=supabase.createClient(SB_URL,SB_KEY);sb.auth.getSession().then(function(r){user=r.data.session?r.data.session.user:null;cb();});};
