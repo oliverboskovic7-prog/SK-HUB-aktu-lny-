@@ -233,26 +233,6 @@ details.ins summary .fav-star{float:right}
 .fav-box .grp{margin:0 0 8px}.fav-list{display:flex;flex-wrap:wrap;gap:8px}
 .fav-chip{font:inherit;font-size:14px;font-weight:600;padding:7px 14px;border-radius:999px;border:0;background:var(--pink);color:#fff;cursor:pointer}
 details.ins li{white-space:pre-line}
-
-/* Dokumenty */
-.btn{border:0;font-family:inherit;cursor:pointer}
-.dm{position:fixed;inset:0;z-index:100;background:rgba(20,15,25,.55);display:flex;align-items:flex-start;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 40px) 14px 20px;overflow:auto}
-.dm.hide{display:none}
-.dm-box{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.3);width:100%;max-width:640px;padding:20px}
-.dm-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.dm-top h2{margin:0;font-size:22px;flex:1}
-.dm-x{border:0;background:var(--pink-soft);color:var(--pink);width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer}
-.dm-tabs{display:flex;gap:6px;margin-bottom:14px}
-.dm-tabs button{flex:1;font:600 15px Inter,sans-serif;padding:9px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
-.dm-tabs button.on{background:var(--pink);color:#fff;border-color:var(--pink)}
-.dm-it{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px}
-.dm-it b{flex:1;font-weight:600;word-break:break-word}.dm-it small{color:var(--muted)}
-.dm-it button,.dm-f button{font:600 14px Inter,sans-serif;padding:7px 14px;border-radius:999px;border:0;cursor:pointer;background:var(--pink);color:#fff}
-.dm-it button.del{background:var(--pink-soft);color:var(--pink)}
-.dm-f{display:grid;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
-.dm-f input,.dm-f select{font:inherit;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
-.dm-msg{color:var(--muted);font-size:14px;margin:6px 0}.dm-msg.err{color:#c0262d}
-.dm-lo{border:0;cursor:pointer;display:block;margin:0 0 10px auto;font-size:13px;background:none!important;color:var(--muted)!important;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -272,7 +252,7 @@ details.ins li{white-space:pre-line}
       <a onclick="switchTab('sablony')" id="nav-sablony">Šablony</a>
       <a onclick="switchTab('majetok')" id="nav-majetok">Majetek</a>
       </nav>
-    <button type="button" class="btn" id="doc-btn">Dokumenty</button>
+    <a class="btn" href="https://is.eoit.cz/crm" target="_blank" rel="noopener">Dashboard</a>
     <button type="button" class="theme-btn" id="theme-btn" aria-label="Přepnout světlý/tmavý režim" title="Světlý / tmavý režim">🌙</button>
   </div>
 </header>
@@ -830,90 +810,6 @@ function switchTab(tabId) {
     hint.style.display=favs.length?'none':'';
   }
   sync();
-})();
-</script>
-
-<div id="dm" class="dm hide" role="dialog" aria-modal="true" aria-label="Dokumenty">
- <div class="dm-box">
-  <div class="dm-top"><h2>Dokumenty <small style="font-weight:400;color:var(--muted);font-size:12px">v3</small></h2><button type="button" class="dm-x" id="dm-x" aria-label="Zavřít">✕</button></div>
-  <div class="dm-tabs"><button type="button" id="dm-t-operator" class="on">Operátor</button><button type="button" id="dm-t-vedenie">Vedení</button></div>
-  <div id="dm-body" data-notr></div>
- </div>
-</div>
-
-<script>
-(function(){
-var SB_URL='https://nattqgydzbteovqqhesh.supabase.co', SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNraW10ZmdiaWhmdHJocW9xeHd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzMDE2NjgsImV4cCI6MjEwNjg3NzY2OH0.8x8Q80PWnve5hcYSJp9SXoUFIkl3-EUxqD8KZA6-NrI';
-var L={login:'Přihlášení pro vedení',mail:'E-mail',pass:'Heslo',in:'Přihlásit',out:'Odhlásit',empty:'Zatím tu nejsou žádné dokumenty.',open:'Otevřít',del:'Smazat',up:'Nahrát dokument',name:'Název (nepovinné)',go:'Nahrát',conf:'Opravdu smazat dokument?',bad:'Nesprávný e-mail nebo heslo.',noadmin:'Nepodařilo se uložit.',back:'Zpět',cfg:'Dokumenty ještě nejsou propojené (chybí klíč v kódu).',err:'Nepodařilo se načíst. Zkus znovu.',vhint:'Po přihlášení uvidíš i dokumenty pro vedení a můžeš nahrávat.'};
-var sb=null,sec='operator',user=null,m=document.getElementById('dm'),body=document.getElementById('dm-body');
-function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
-function msg(t,err){var p=el('p','dm-msg'+(err?' err':''),t);return p;}
-function init(cb){
-  if(!SB_KEY){body.textContent='';body.appendChild(msg(L.cfg,true));return;}
-  if(sb)return cb();
-  var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
-  s.onload=function(){sb=supabase.createClient(SB_URL,SB_KEY);sb.auth.getSession().then(function(r){user=r.data.session?r.data.session.user:null;cb();});};
-  s.onerror=function(){body.textContent='';body.appendChild(msg(L.err,true));};
-  document.head.appendChild(s);
-}
-function show(){
-  body.textContent='';
-  document.getElementById('dm-t-operator').className=sec==='operator'?'on':'';
-  document.getElementById('dm-t-vedenie').className=sec==='vedenie'?'on':'';
-  document.querySelector('.dm-tabs').style.display=user?'flex':'none';
-  if(!user)sec='operator';
-  if(user){var lo=el('button','dm-lo',L.out+' ('+user.email+')');lo.type='button';lo.onclick=function(){sb.auth.signOut().then(function(){user=null;show();});};body.appendChild(lo);}
-  var box=el('div');body.appendChild(box);
-  sb.from('dokumenty').select('*').eq('sekcia',sec).order('created_at',{ascending:false}).then(function(r){
-    if(r.error){box.appendChild(msg(L.err,true));return;}
-    if(!r.data.length)box.appendChild(msg(L.empty));
-    r.data.forEach(function(d){
-      var row=el('div','dm-it'),n=el('b',null,d.nazov);row.appendChild(n);
-      var o=el('button',null,L.open);o.type='button';o.onclick=function(){
-        sb.storage.from('dokumenty').createSignedUrl(d.cesta,300).then(function(x){if(x.data)window.open(x.data.signedUrl,'_blank','noopener');else alert(L.err);});};
-      row.appendChild(o);
-      if(user){var b=el('button','del',L.del);b.type='button';b.onclick=function(){
-        if(!confirm(L.conf))return;
-        sb.from('dokumenty').delete().eq('id',d.id).then(function(x){if(x.error)return alert(L.noadmin);sb.storage.from('dokumenty').remove([d.cesta]).then(show);});};row.appendChild(b);}
-      box.appendChild(row);
-    });
-  });
-  if(user)uploadForm();
-  else{var lb=el('button','dm-lo',L.login);lb.type='button';lb.onclick=loginForm;body.appendChild(lb);}
-}
-function loginForm(){
-  body.textContent='';document.querySelector('.dm-tabs').style.display='none';
-  var bk=el('button','dm-lo','← '+L.back);bk.type='button';bk.onclick=show;body.appendChild(bk);
-  body.appendChild(msg(L.vhint));
-  var f=el('div','dm-f'),e=el('input'),p=el('input'),b=el('button',null,L.in),st=msg('');
-  f.style.borderTop='0';e.type='email';e.placeholder=L.mail;e.autocomplete='username';p.type='password';p.placeholder=L.pass;p.autocomplete='current-password';b.type='button';
-  function go(){sb.auth.signInWithPassword({email:e.value.trim(),password:p.value}).then(function(r){
-    if(r.error){st.textContent=L.bad+' ['+r.error.message+']';st.className='dm-msg err';return;}user=r.data.user;show();});}
-  b.onclick=go;p.onkeydown=function(ev){if(ev.key==='Enter')go();};
-  [e,p,b,st].forEach(function(x){f.appendChild(x);});body.appendChild(f);
-}
-function uploadForm(){
-  var f=el('div','dm-f'),h=el('b',null,L.up),s=el('select'),fi=el('input'),nm=el('input'),b=el('button',null,L.go),st=msg('');
-  [['operator',document.getElementById('dm-t-operator').textContent],['vedenie',document.getElementById('dm-t-vedenie').textContent]].forEach(function(o){var op=el('option',null,o[1]);op.value=o[0];if(o[0]===sec)op.selected=true;s.appendChild(op);});
-  fi.type='file';nm.type='text';nm.placeholder=L.name;b.type='button';
-  b.onclick=function(){
-    var file=fi.files[0];if(!file)return;b.disabled=true;st.textContent='…';st.className='dm-msg';
-    var path=s.value+'/'+Date.now()+'-'+file.name.replace(/[^\w.\-]+/g,'_');
-    sb.storage.from('dokumenty').upload(path,file).then(function(r){
-      if(r.error){b.disabled=false;st.textContent=L.noadmin;st.className='dm-msg err';return;}
-      return sb.from('dokumenty').insert({sekcia:s.value,nazov:nm.value.trim()||file.name,cesta:path}).then(function(x){
-        b.disabled=false;if(x.error){st.textContent=L.noadmin;st.className='dm-msg err';return;}sec=s.value;show();});
-    });
-  };
-  [h,s,fi,nm,b,st].forEach(function(x){f.appendChild(x);});body.appendChild(f);
-}
-function open(){m.classList.remove('hide');body.textContent='…';init(show);}
-function close(){m.classList.add('hide');}
-document.getElementById('doc-btn').addEventListener('click',open);
-document.getElementById('dm-x').addEventListener('click',close);
-m.addEventListener('click',function(e){if(e.target===m)close();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
-['operator','vedenie'].forEach(function(k){document.getElementById('dm-t-'+k).addEventListener('click',function(){if(!user)return;sec=k;show();});});
 })();
 </script>
 </body>
