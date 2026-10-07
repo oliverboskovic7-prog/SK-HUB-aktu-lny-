@@ -926,6 +926,7 @@ function tr(t){var m=t.match(/^(\s*)([\s\S]*?)(\s*)$/),c=m[2];if(!c)return t;
 <script>
 // --- DOKUMENTY (Supabase: spoločné úložisko + prihlásenie vedenia) ---
 const SUPABASE_URL = 'https://eiaevatcnohzcwvrnjkk.supabase.co';
+const HUB_COUNTRY = 'sk';   // 'sk' alebo 'cz': každý hub má vlastné dokumenty
 const SUPABASE_KEY = 'sb_publishable_qweFe9nw3Mh-JbfBUHBy7w_KkKP-rmE';
 
 let sb = null, docSession = null, docsCache = [];
@@ -1029,7 +1030,7 @@ function onDocKindChange() {
 
 function loadDocs() {
   if (!sb) return;
-  sb.from('hub_documents').select('*').order('created_at', { ascending: false }).then(function(r) {
+  sb.from('hub_documents').select('*').eq('country', HUB_COUNTRY).order('created_at', { ascending: false }).then(function(r) {
     if (r.error) { docsMsg('Chyba pri načítaní dokumentov: ' + r.error.message); return; }
     docsMsg('');
     docsCache = r.data || [];
@@ -1147,7 +1148,7 @@ async function uploadDocument() {
   var aud = document.getElementById('doc-aud').value;
   if (!title) { alert('Vlož názov.'); return; }
 
-  var row = { title: title, kind: kind, audience: aud, uploader: docSession.user.email };
+  var row = { country: HUB_COUNTRY, title: title, kind: kind, audience: aud, uploader: docSession.user.email };
   var path = null, bucket = 'docs-' + aud;
 
   if (kind === 'link') {
