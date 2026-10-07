@@ -33,7 +33,7 @@ nav{display:flex;gap:8px;margin-left:auto;overflow-x:auto;white-space:nowrap;pad
 nav a{color:var(--ink);font-weight:600;font-size:14px;padding:8px 14px;border-radius:10px;transition:background .2s, color .2s;cursor:pointer}
 nav a:hover{background:var(--pink-soft);text-decoration:none;color:var(--pink)}
 nav a.active{background:var(--pink);color:#fff}
-.btn{background:var(--green);color:#fff;font-weight:600;padding:9px 18px;border-radius:999px;font-size:15px;white-space:nowrap}
+.btn{background:var(--green);color:#fff;font-weight:600;padding:9px 18px;border-radius:999px;font-size:15px;white-space:nowrap;border:none;cursor:pointer;font-family:inherit;}
 .btn:hover{text-decoration:none;filter:brightness(1.08)}
 
 .heroband{background:linear-gradient(135deg,#d3277f 0%,#a3195f 100%);color:#fff;position:relative;overflow:hidden}
@@ -114,6 +114,7 @@ h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
 .tl-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:12px}
 .tl-tools{display:flex;align-items:center;gap:12px;font-size:17px;padding-top:6px}
 .tl-btn{font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;border:0;background:var(--pink-soft);color:var(--pink);cursor:pointer}
+.tl-btn.active-subtab{background:var(--pink);color:#fff}
 .tl{list-style:none;margin:6px 0 0;padding:0;position:relative}
 .tl::before{content:"";position:absolute;left:19px;top:20px;bottom:20px;width:3px;background:var(--pink-soft);border-radius:3px}
 .tl-step{position:relative;display:flex;gap:16px;align-items:flex-start;margin-bottom:14px}
@@ -186,7 +187,6 @@ h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
   .side{display:flex}
   main,footer{margin-left:220px}
   nav{display:none}
-  .bar .btn{margin-left:auto}
   header .wrap.bar{max-width:none;margin:0;padding:0 24px}
 }
 .sp .due{margin-top:auto;padding-top:8px;border-top:1px dashed var(--line);font-size:13px;color:var(--muted)}
@@ -210,6 +210,14 @@ h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
 .hubsw{display:flex;gap:2px;background:var(--pink-soft);border-radius:999px;padding:3px}
 .hubsw a{font-weight:700;font-size:13px;padding:5px 12px;border-radius:999px;color:var(--pink)}
 .hubsw a.on{background:var(--pink);color:#fff}.hubsw a:hover{text-decoration:none}
+
+.lk{position:relative;display:flex}
+.lk>a{flex:1;padding-right:76px}
+.lk:has(>a.hide){display:none}
+.lk .lk-act{position:absolute;top:50%;right:8px;transform:translateY(-50%);display:flex;gap:2px}
+.lk .lk-act button{border:0;background:transparent;cursor:pointer;font-size:17px;padding:4px 6px;border-radius:8px;line-height:1}
+.lk .lk-act button:hover{background:var(--pink-soft)}
+.doc-search{width:100%;max-width:420px;padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;margin-bottom:16px}
 </style>
 </head>
 <body>
@@ -226,27 +234,25 @@ h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
       <a onclick="switchTab('kalkulacka')" id="nav-kalkulacka">Kalkulačka podpoistenia</a>
       <a onclick="switchTab('hovor')" id="nav-hovor">Skript hovoru</a>
       <a onclick="switchTab('sablony')" id="nav-sablony">Šablóny</a>
-      <a onclick="switchTab('statusy')" id="nav-statusy">Statusy</a>
       <a onclick="switchTab('majetok')" id="nav-majetok">Majetok</a>
+      <a onclick="switchTab('dokumenty')" id="nav-dokumenty">Dokumenty</a>
     </nav>
-    <a class="btn" href="https://srovnejto.daktela.com/dashboard/" target="_blank" rel="noopener">Dashboard</a>
-    <button type="button" class="tl-btn" id="lang-btn" data-notr style="margin-left:8px">Preložiť do češtiny</button>
-    <button type="button" class="theme-btn" id="theme-btn" aria-label="Prepnúť svetlý/tmavý režim" title="Svetlý / tmavý režim">🌙</button>
+    <button type="button" class="tl-btn" id="lang-btn" data-notr style="margin-left:auto">Preložiť do češtiny</button>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Prepnúť svetlý/tmavý režim" title="Svetlý / tmavý režim" style="margin-left:8px">🌙</button>
   </div>
 </header>
 <aside class="side" aria-label="Rýchla navigácia">
 <div class="side-h">Záložky</div>
 <button type="button" id="side-odkazy" class="active" onclick="switchTab('odkazy')"><span class="si">📌</span>Odkazy</button>
-<button type="button" id="side-splatnosti" onclick="switchTab('splatnosti')"><span class="si">🗓️</span>Splatnosti</button>
+<button type="button" id="side-splatnosti" onclick="switchTab('splatnosti')"><span class="si">🗓</span>Splatnosti</button>
 <button type="button" id="side-vypovede" onclick="switchTab('vypovede')"><span class="si">📄</span>Výpovede</button>
 <button type="button" id="side-vinkulacie" onclick="switchTab('vinkulacie')"><span class="si">🏦</span>Vinkulácie</button>
 <button type="button" id="side-kalkulacka" onclick="switchTab('kalkulacka')"><span class="si">🧮</span>Kalkulačka podpoistenia</button>
 <button type="button" id="side-hovor" onclick="switchTab('hovor')"><span class="si">🎯</span>Skript hovoru</button>
 <button type="button" id="side-sablony" onclick="switchTab('sablony')"><span class="si">✉</span>Šablóny</button>
-<button type="button" id="side-statusy" onclick="switchTab('statusy')"><span class="si">🔄</span>Statusy</button>
 <button type="button" id="side-majetok" onclick="switchTab('majetok')"><span class="si">🏠</span>Majetok</button>
+<button type="button" id="side-dokumenty" onclick="switchTab('dokumenty')"><span class="si">📁</span>Dokumenty</button>
 </aside>
-
 
 <main>
   <!-- HERO BANNER -->
@@ -254,7 +260,7 @@ h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
     <div class="wrap hero">
       <h1>Poistenie majetku SK na jednom mieste</h1>
       <p class="lead">Odkazy, splatnosti, vinkulácie, kalkulačka podpoistenia a skript hovoru. Všetko pri hovore.</p>
-      <input id="q" class="search" type="search" placeholder="Čo potrebuješ nájsť? Napríklad podpoistenie..." aria-label="Hľadať v hube">
+      <input id="q" class="search" type="search" name="hub-hladanie" autocomplete="off" data-lpignore="true" data-1p-ignore placeholder="Čo potrebuješ nájsť? Napríklad podpoistenie..." aria-label="Hľadať v hube">
       <div id="none" class="hide">Nič sa nenašlo. Skús iné slovo.</div>
     </div>
   </div>
@@ -270,9 +276,6 @@ h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
         <a href="https://www.netfinancie.com/kerberos/" target="_blank" rel="noopener noreferrer" data-s="kerberos netfinancie office nf klik"><span class="ic">📊</span><span class="tx">Kalkulačka NetFinancie</span></a>
         <a href="https://sp.nfhub.sk/poistenie-domov-domacnosti-porovnanie-kalkulacka/" target="_blank" rel="noopener" data-s="kalkulačka superpoistenie"><span class="ic">🧮</span><span class="tx">Kalkulačka SuperPoistenie<small>Poistenie domu, bytu a domácnosti</small></span></a>
         <a href="https://nf.klik.sk/poistenie-domov-domacnosti-porovnanie-kalkulacka/" target="_blank" rel="noopener noreferrer" data-s="kalkulačka klik epojisteni poistenie domu bytu domácnosti"><span class="ic">🧮</span><span class="tx">Kalkulačka KLIK<small>Poistenie domu, bytu a domácnosti</small></span></a>
-        <!-- SKRYTÉ: Prihlásenie KLIK (odkomentuj pre návrat)
-        <a href="https://nf.klik.sk/kerberos/" target="_blank" rel="noopener noreferrer" data-s="klik prihlásenie kerberos login nf"><span class="ic">🔑</span><span class="tx">Prihlásenie KLIK<small>Najprv sa prihlás, potom kalkulačka</small></span></a>
-        -->
         <a href="https://zbgis.skgeodesy.sk/mapka/sk/kataster?pos=47.928408,18.207431,15" target="_blank" rel="noopener" data-s="kataster nehnuteľnosti"><span class="ic">🗺</span><span class="tx">Kataster nehnuteľností<small>Mapa ZBGIS</small></span></a>
         <a href="https://www.netfinancie.com/vypoved-poistnej-zmluvy/poistenie-nehnutelnosti/" target="_blank" rel="noopener" data-s="výpoveď vzor poistenie nehnuteľnosti formulár netfinancie"><span class="ic">📄</span><span class="tx">Výpoveď poistenia nehnuteľnosti<small>Vzor – NetFinancie</small></span></a>
       </div>
@@ -321,7 +324,6 @@ h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
         <div class="calc-field"><label for="an-date">Výročie zmluvy klienta</label><input type="date" id="an-date"></div>
         <div id="an-out"></div>
       </div>
-
 
       <div class="tbl-wrap" style="overflow-x:auto; margin-bottom: 28px;">
         <p class="grp">Podateľne a e-maily poisťovní (výpovedná lehota je štandardne 6 týždňov)</p>
@@ -491,44 +493,25 @@ h1,h2,.logo,.chip{font-family:Sora,Inter,system-ui,sans-serif}
       <h2>Šablóny správ</h2>
       <p class="sub">Klikni na Kopírovať a vlož text do e-mailu. Nevpisuj sem údaje zákazníkov.</p>
       <div class="tpl-list">
-<div class="tpl" data-subject="Poistenie nehnuteľnosti – kontakt" data-s="šablóna správa e-mail vizitka: kontakt na mňa na konci hovoru alebo v e-maile dobrý deň,
-
-ďakujem za hovor. v prípade akýchkoľvek otázok ma môžete kontaktovať na tomto e-maile.
-
-s pozdravom">
+<div class="tpl" data-subject="Poistenie nehnuteľnosti – kontakt" data-s="šablóna správa e-mail vizitka: kontakt na mňa na konci hovoru alebo v e-maile dobrý deň, ďakujem za hovor. v prípade akýchkoľvek otázok ma môžete kontaktovať na tomto e-maile. s pozdravom">
 <div class="tpl-h"><div><h3>Vizitka: kontakt na mňa</h3><small>Na konci hovoru alebo v e-maile</small></div><div class="tpl-act"><a class="tpl-web" href="#" target="_blank" rel="noopener" title="Otvorí nový e-mail v Outlooku s vyplneným predmetom a textom">✉️ Outlook</a><button type="button" class="tpl-copy" data-l="Kopírovať">Kopírovať</button></div></div>
 <div class="tpl-text">Dobrý deň,
 
 ďakujem za hovor. V prípade akýchkoľvek otázok ma môžete kontaktovať na tomto e-maile.
 
 S pozdravom</div></div>
-<div class="tpl" data-subject="Vinkulácia poistenia – potrebné doklady" data-s="šablóna správa e-mail vinkulácia: čo mi pošlite keď klient chce poistenie vinkulovať v prospech banky dobrý deň,
-
-k vinkulácii poistenia v prospech vašej banky prosím zašlite na tento e-mail:
-1. vinkulačné tlačivá od vašej banky (ak ich banka vyžaduje),
-2. potvrdenie o zaplatení poistného (doklad z bankovníctva).
-
-po ich doručení vinkuláciu potvrdíme u poisťovne a potvrdenie zašleme vám, prípadne priamo banke.
-
-s pozdravom">
+<div class="tpl" data-subject="Vinkulácia poistenia – potrebné doklady" data-s="šablóna správa e-mail vinkulácia: čo mi pošlite keď klient chce poistenie vinkulovať v prospech banky dobrý deň, k vinkulácii poistenia v prospech vašej banky prosím zašlite na tento e-mail: 1. vinkulačné tlačivá od vašej banky (ak ich banka vyžaduje), ktoré musia byť podpísané klientom, 2. potvrdenie o zaplatení poistného (doklad z bankovníctva). po ich doručení vinkuláciu potvrdíme u poisťovne a potvrdenie zašleme vám, prípadne priamo banke. s pozdravom">
 <div class="tpl-h"><div><h3>Vinkulácia: čo mi pošlite</h3><small>Keď klient chce poistenie vinkulovať v prospech banky</small></div><div class="tpl-act"><a class="tpl-web" href="#" target="_blank" rel="noopener" title="Otvorí nový e-mail v Outlooku s vyplneným predmetom a textom">✉️ Outlook</a><button type="button" class="tpl-copy" data-l="Kopírovať">Kopírovať</button></div></div>
 <div class="tpl-text">Dobrý deň,
 
 k vinkulácii poistenia v prospech vašej banky prosím zašlite na tento e-mail:
-1. vinkulačné tlačivá od vašej banky (ak ich banka vyžaduje),
+1. vinkulačné tlačivá od vašej banky (ak ich banka vyžaduje), ktoré musia byť podpísané klientom,
 2. potvrdenie o zaplatení poistného (doklad z bankovníctva).
 
 Po ich doručení vinkuláciu potvrdíme u poisťovne a potvrdenie zašleme vám, prípadne priamo banke.
 
 S pozdravom</div></div>
-<div class="tpl" data-subject="Výpoveď pôvodného poistenia" data-s="šablóna správa e-mail výpoveď pôvodného poistenia keď klient mení poisťovňu a treba vypovedať staré poistenie dobrý deň,
-
-k výpovedi pôvodného poistenia: výpoveď musí byť poisťovni doručená najneskôr 6 týždňov pred výročím zmluvy.
-
-vzor výpovede nájdete tu:
-https://www.netfinancie.com/vypoved-poistnej-zmluvy/poistenie-nehnutelnosti/
-
-s pozdravom">
+<div class="tpl" data-subject="Výpoveď pôvodného poistenia" data-s="šablóna správa e-mail výpoveď pôvodného poistenia keď klient mení poisťovňu a treba vypovedať staré poistenie dobrý deň, k výpovedi pôvodného poistenia: výpoveď musí byť poisťovni doručená najneskôr 6 týždňov pred výročím zmluvy. vzor výpovede nájdete tu: https://www.netfinancie.com/vypoved-poistnej-zmluvy/poistenie-nehnutelnosti/ s pozdravom">
 <div class="tpl-h"><div><h3>Výpoveď pôvodného poistenia</h3><small>Keď klient mení poisťovňu a treba vypovedať staré poistenie</small></div><div class="tpl-act"><a class="tpl-web" href="#" target="_blank" rel="noopener" title="Otvorí nový e-mail v Outlooku s vyplneným predmetom a textom">✉ Outlook</a><button type="button" class="tpl-copy" data-l="Kopírovať">Kopírovať</button></div></div>
 <div class="tpl-text">Dobrý deň,
 
@@ -541,35 +524,109 @@ S pozdravom</div></div>
       </div>
     </div>
 
-    <!-- TAB 6: STATUSY -->
-    <div id="tab-statusy" class="tab-page">
-      <h2>Ako zatvárať statusy</h2>
-      <p class="sub">Čo nastaviť po hovore a komu kontakt zostáva.</p>
-      
-      <p class="grp">Nechávaš pod svojím menom</p>
-      <div class="st">
-        <div data-s="status preplánované – volaj neskôr"><b>Preplánované – volaj neskôr</b><span>Naplánuješ spätný hovor.</span></div>
-        <div data-s="status nedovolané"><b>Nedovolané</b><span>Ak je to tvoj kontakt, napríklad si mu už predtým volal a zdvihol ti.</span></div>
-        <div data-s="status zlý kontakt"><b>Zlý kontakt</b><span>Bez plánovania. Kontakt nechce byť kontaktovaný.</span></div>
-        <div data-s="status nemá záujem"><b>Nemá záujem</b><span>Bez plánovania.</span></div>
-        <div data-s="status duplicita"><b>Duplicita</b><span>Bez plánovania.</span></div>
-      </div>
-
-      <p class="grp">Dávaš na Miriam</p>
-      <div class="st mir">
-        <div data-s="status nedovolané"><b>Nedovolané</b><span>Ak je to fresh lead, s ktorým si ešte nikdy nehovoril a nedovolal si sa mu. Kontakt znova expiruje o 2 hodiny a dostane ho iný operátor.</span></div>
-      </div>
-    </div>
-
     <!-- TAB 7: MAJETOK -->
     <div id="tab-majetok" class="tab-page">
-      <h2>Poistenie majetku v skratke</h2>
-      <p class="sub">Klient rieši nehnuteľnosť, domácnosť a často aj zodpovednosť. Najlepšie je poistiť všetko, lebo každé kryje niečo iné.</p>
+      <h2>Majetok</h2>
+      <p class="sub">Čo klient potrebuje, čo poistíme a čím sa domácnosť líši od nehnuteľnosti.</p>
+      <p class="grp">Čo poistiť</p>
+      <div class="grid">
+        <div class="card" data-s="majetok len domácnosť dom nájom družstevný byt"><span style="display:inline-block;font-weight:800;font-size:12px;letter-spacing:.04em;padding:3px 10px;border-radius:999px;background:#7a4dd8;color:#fff;margin-bottom:8px">DOM</span><h3>Len domácnosť (DOM)</h3><p>Klient je v nájme alebo v družstevnom byte. Pri vlastnom byte zváž aj NEM: kryje stavebné súčasti a zodpovednosť z držby nehnuteľnosti. Vždy záleží na konkrétnej situácii a rozsahu poistenia spoločenstva vlastníkov.</p></div>
+        <div class="card" data-s="majetok len nehnuteľnosť nem prenájom rozostavaná"><span style="display:inline-block;font-weight:800;font-size:12px;letter-spacing:.04em;padding:3px 10px;border-radius:999px;background:#d3277f;color:#fff;margin-bottom:8px">NEM</span><h3>Len nehnuteľnosť (NEM)</h3><p>Vlastník dom alebo byt prenajíma bez vnútorného vybavenia a nájomník si poisťuje domácnosť sám. Tiež rozostavaná stavba, alebo keď klient má domácnosť poistenú a nechce ju teraz riešiť.</p></div>
+        <div class="card" data-s="majetok domácnosť a nehnuteľnosť dom nem obojé vlastné bývanie"><span style="display:inline-block;font-weight:800;font-size:12px;letter-spacing:.04em;padding:3px 10px;border-radius:999px;background:#2563eb;color:#fff;margin-bottom:8px">DOM + NEM</span><h3>Obe (DOM + NEM)</h3><p>Vždy, keď klient býva vo vlastnom. Tiež keď dom či byt prenajíma vrátane svojho vybavenia, ktoré chce mať poistené.</p></div>
+      </div>
+      <p class="grp" style="margin-top:26px">Čo poistíme a čo nie</p>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+        <div class="card" data-s="čo poistíme majetok" style="border-top-color:#2e9e57"><h3>✅ Poistíme</h3><ul style="padding:0;margin:0"><li style="margin:5px 0;list-style:none">✓ Trvalo obývané budovy</li><li style="margin:5px 0;list-style:none">✓ Byty</li><li style="margin:5px 0;list-style:none">✓ Rodinné domy</li><li style="margin:5px 0;list-style:none">✓ Domy do 4 bytových jednotiek</li><li style="margin:5px 0;list-style:none">✓ Rekreačné objekty</li><li style="margin:5px 0;list-style:none">✓ Chaty, chalupy</li><li style="margin:5px 0;list-style:none">✓ Záhradné domčeky</li><li style="margin:5px 0;list-style:none">✓ Objekty určené na podnikanie do 50 % plochy</li><li style="margin:5px 0;list-style:none">✓ Rozostavané domy s číslom parcely</li></ul></div>
+        <div class="card" data-s="čo nepoistíme majetok" style="border-top-color:#d6336c"><h3>❌ Nepoistíme</h3><ul style="padding:0;margin:0"><li style="margin:5px 0;list-style:none">✗ Panelové domy</li><li style="margin:5px 0;list-style:none">✗ Ubytovne</li><li style="margin:5px 0;list-style:none">✗ Objekty určené na podnikanie</li><li style="margin:5px 0;list-style:none">✗ Činžové domy</li><li style="margin:5px 0;list-style:none">✗ Neudržiavané objekty</li><li style="margin:5px 0;list-style:none">✗ Objekty registrované na firmy</li><li style="margin:5px 0;list-style:none">✗ Bytové komplexy</li><li style="margin:5px 0;list-style:none">✗ Nelegálne stavby</li><li style="margin:5px 0;list-style:none">✗ Obytné domy s viac ako 4 bytovými jednotkami</li></ul></div>
+      </div>
+      <p class="grp" style="margin-top:26px">Poistenie majetku v skratke</p>
       <div class="grid">
         <div class="card" data-s="nehnuteľnosť stavba dom byt strecha steny"><h3>Poistenie nehnuteľnosti</h3><p>Kryje samotnú stavbu: steny, strechu, okná, podlahy. Ak víchrica zhodí strom na strechu, platí toto poistenie.</p></div>
         <div class="card" data-s="domácnosť vybavenie nábytok elektro"><h3>Poistenie domácnosti</h3><p>Kryje vybavenie vnútri: nábytok, elektro, oblečenie, športové veci.</p></div>
         <div class="card" data-s="zodpovednosť škoda cudzí sused"><h3>Poistenie zodpovednosti</h3><p>Platí, keď klient neúmyselne spôsobí škodu niekomu inému, napríklad zatečie sused.</p></div>
-        <div class="card" data-s="podpoistenie suma hodnota"><h3>Podpoistenie</h3><p>Dom je poistený na nižšiu sumu, než je jeho reálna hodnota. Pri škode potom klient nedostane plnú náhradu.</p></div>
+        <div class="card" data-s="podpoistenie suma hodnota"><h3>Podpoistenie</h3><p>Dom je poistený na nižšiu sumu, než je jeho reálna hodnota. Pri škode potom klient nedostane plná náhradu.</p></div>
+      </div>
+    </div>
+
+    <!-- TAB 8: DOKUMENTY -->
+    <div id="tab-dokumenty" class="tab-page">
+      <h2>Dokumenty</h2>
+      <p class="sub">Súbory a odkazy. Excely a online dokumenty stačí pridať ako odkaz, otvoria sa rovno, bez sťahovania.</p>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:20px; border-bottom:2px solid var(--line); padding-bottom:12px;">
+        <button type="button" class="tl-btn active-subtab" id="btn-sub-operator" onclick="switchDocSubtab('operator')">👨‍💻 Operátori</button>
+        <button type="button" class="tl-btn" id="btn-sub-vedenie" onclick="switchDocSubtab('vedenie')">🔒 Vedenie</button>
+        <button type="button" class="tl-btn hide" id="btn-doc-logout" style="margin-left:auto" onclick="logoutVedenie()">Odhlásiť sa</button>
+      </div>
+
+      <div id="doc-msg" class="hide" style="margin-bottom:14px;color:var(--bad);font-weight:600;"></div>
+      <input type="search" id="doc-search" class="doc-search" name="doc-hladanie" placeholder="🔎 Hľadať v dokumentoch…" autocomplete="off" oninput="onDocSearch()" data-notr>
+
+      <!-- Operátori: vidí každý -->
+      <div id="doc-subtab-operator">
+        <p class="grp">Dokumenty pre operátorov</p>
+        <div id="doc-list-operator" class="grid"></div>
+      </div>
+
+      <!-- Vedenie: len po prihlásení -->
+      <div id="doc-subtab-vedenie" class="hide">
+        <form id="vedenie-login-box" class="calc-box dc" onsubmit="processVedenieLogin();return false;">
+          <p class="grp">Prihlásenie pre Vedenie</p>
+          <div class="calc-field">
+            <label for="v-email">E-mail</label>
+            <input type="email" id="v-email" name="username" placeholder="meno@klik.cz" autocomplete="username">
+          </div>
+          <div class="calc-field">
+            <label for="v-pass">Heslo</label>
+            <input type="password" id="v-pass" name="password" placeholder="••••••••" autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn">Prihlásiť sa</button>
+        </form>
+
+        <div id="vedenie-upload-box" class="hide">
+          <div style="background:var(--pink-soft); padding:10px 16px; border-radius:12px; margin-bottom:15px;">
+            <span id="vedenie-user-badge" style="font-weight:700; color:var(--pink);"></span>
+          </div>
+
+          <p class="grp">Dokumenty iba pre vedenie</p>
+          <div id="doc-list-vedenie" class="grid"></div>
+          <div style="margin-top:18px;">
+            <button type="button" class="btn" id="doc-add-toggle" onclick="toggleAddForm()">➕ Pridať dokument</button>
+          </div>
+          <div id="doc-add-form" class="calc-box dc hide" style="max-width:none; margin-top:16px;">
+            <p class="grp">Pridať dokument alebo odkaz</p>
+            <div class="dc-row">
+              <div class="calc-field">
+                <label for="doc-title">Názov</label>
+                <input type="text" id="doc-title" placeholder="napr. Tabuľka výročí 2026" data-notr>
+              </div>
+              <div class="calc-field">
+                <label for="doc-kind">Čo pridávaš</label>
+                <select id="doc-kind" onchange="onDocKindChange()">
+                  <option value="link">🔗 Odkaz (Excel online, Google Sheets, web…)</option>
+                  <option value="file">📄 Súbor z počítača</option>
+                </select>
+              </div>
+              <div class="calc-field">
+                <label for="doc-aud">Pre koho</label>
+                <select id="doc-aud">
+                  <option value="operator">Operátori (vidí každý)</option>
+                  <option value="vedenie">Iba vedenie (po prihlásení)</option>
+                </select>
+              </div>
+            </div>
+            <div class="calc-field" id="doc-url-wrap">
+              <label for="doc-url">Odkaz (URL)</label>
+              <input type="text" id="doc-url" placeholder="https://..." data-notr>
+            </div>
+            <div class="calc-field hide" id="doc-file-wrap">
+              <label for="doc-file">Súbor</label>
+              <input type="file" id="doc-file">
+            </div>
+            <button type="button" class="btn" id="doc-save-btn" onclick="uploadDocument()">Pridať</button>
+          </div>
+
+        </div>
       </div>
     </div>
 
@@ -822,9 +879,9 @@ function switchTab(tabId) {
 </script>
 <script>
 // Preklad SK hubu do češtiny (slovníkový). Mesiace sa v dátumoch ukazujú v SK aj CZ.
-var EX={"Kalkulačka NetFinancie": "Kalkulačka NetFinancie", "Kalkulačka SuperPoistenie": "Kalkulačka SuperPojištění", "Poistenie domu, bytu a domácnosti": "Pojištění domu, bytu a domácnosti", "Kataster nehnuteľností": "Katastr nemovitostí", "Výpoveď poistenia nehnuteľnosti": "Výpověď pojištění nemovitosti", "Dokedy musí klient zaplatiť prvé poistné. Ružová lehota sa počíta od začiatku poistenia, zelená od uzatvorenia.": "Dokdy musí klient zaplatit první pojistné. Růžová lhůta se počítá od počátku pojištění, zelená od uzavření.", "(dnes, mení sa automaticky)": "(dnes, mění se automaticky)", "Začiatok poistenia (počiatok)": "Počátek pojištění", "Dátum splatnosti sa ukáže v bublinách nižšie. Orientačný výpočet v kalendárnych dňoch, presnú lehotu over v podmienkach poisťovne.": "Datum splatnosti se ukáže v bublinách níže. Orientační výpočet v kalendářních dnech, přesnou lhůtu ověř v podmínkách pojišťovny.", "od uzatvorenia poistenia": "od uzavření pojištění", "do 15 kalendárnych dní odo dňa uzatvorenia poistenia": "do 15 kalendářních dnů ode dne uzavření pojištění", "do 30 dní odo dňa uzatvorenia poistenia": "do 30 dnů ode dne uzavření pojištění", "do 5 kalendárnych dní od dátumu začiatku poistenia": "do 5 kalendářních dnů od data počátku pojištění", "v lehote 15 kalendárnych dní odo dňa začiatku poistenia": "v lhůtě 15 kalendářních dnů ode dne počátku pojištění", "do 15 kalendárnych dní od dátumu začiatku poistenia": "do 15 kalendářních dnů od data počátku pojištění", "v lehote desiatich kalendárnych dní odo dňa začiatku poistenia": "v lhůtě deseti kalendářních dnů ode dne počátku pojištění", "Prehľad podateľní, e-mailov poisťovní a možností, kedy je možné poistnú zmluvu vypovedať. (Klikni na e-mail pre skopírovanie)": "Přehled podatelen, e-mailů pojišťoven a možností, kdy lze pojistnou smlouvu vypovědět. (Klikni na e-mail pro zkopírování)", "Výpoveď poistenia nehnuteľnosti – NetFinancie": "Výpověď pojištění nemovitosti – NetFinancie", "Výročie zmluvy klienta": "Výročí smlouvy klienta", "Podateľne a e-maily poisťovní (výpovedná lehota je štandardne 6 týždňov)": "Podatelny a e-maily pojišťoven (výpovědní lhůta je standardně 6 týdnů)", "Možnosť výpovede / Portál": "Možnost výpovědi / Portál", "(portál pre správu zmlúv)": "(portál pro správu smluv)", "(portál aj mobilná appka)": "(portál i mobilní aplikace)", "Dôvody a prípady, kedy možno podať výpoveď": "Důvody a případy, kdy lze podat výpověď", "Ku koncu poistného obdobia": "Ke konci pojistného období", "Výpoveď musí byť doručená poisťovni najneskôr": "Výpověď musí být doručena pojišťovně nejpozději", "pred výročím zmluvy (koncom poistného obdobia).": "před výročím smlouvy (koncem pojistného období).", "Do 2 mesiacov od uzavretia": "Do 2 měsíců od uzavření", "Zmluvu je možné vypovedať do 2 mesiacov od jej dojednania. Výpovedná lehota je 8 dní a poistka zaniká jej uplynutím.": "Smlouvu lze vypovědět do 2 měsíců od jejího sjednání. Výpovědní lhůta je 8 dnů a pojistka zaniká jejím uplynutím.", "Pri vzniku poistnej udalosti": "Při vzniku pojistné události", "Výpoveď je možné podať do 1 mesiaca od oznámenia poskytnutia alebo odmietnutia poistného plnenia.": "Výpověď lze podat do 1 měsíce od oznámení poskytnutí nebo odmítnutí pojistného plnění.", "Zmena vlastníka nehnuteľnosti": "Změna vlastníka nemovitosti", "Pri predaji alebo darovaní nehnuteľnosti. Zaniká dňom zápisu nového vlastníka do katastra (pripája sa list vlastníctva alebo kúpna zmluva).": "Při prodeji nebo darování nemovitosti. Zaniká dnem zápisu nového vlastníka do katastru (přikládá se list vlastnictví nebo kupní smlouva).", "Zánik poistného rizika / predmetu": "Zánik pojistného rizika / předmětu", "Ak nehnuteľnosť fyzicky zanikla (napr. demoličný výmer, zničenie stavby).": "Pokud nemovitost fyzicky zanikla (např. demoliční výměr, zničení stavby).", "Nezaplatením poistného": "Nezaplacením pojistného", "Poistka zanikne automaticky, ak poistné nie je zaplatené do určitej lehoty od výzvy poisťovne (neodporúča sa ako štandardný krok).": "Pojistka zanikne automaticky, pokud pojistné není zaplaceno do určité lhůty od výzvy pojišťovny (nedoporučuje se jako standardní krok).", "Vinkulácia poistenia k hypotéke": "Vinkulace pojištění k hypotéce", "Postup pre operátora, keď klient potrebuje vinkuláciu v prospech banky.": "Postup pro operátora, když klient potřebuje vinkulaci ve prospěch banky.", "Postup spracovania vinkulácie:": "Postup zpracování vinkulace:", "Inštrukcie pre klienta:": "Instrukce pro klienta:", "Klient musí na náš e-mail poslať doplňujúce podklady:": "Klient musí na náš e-mail poslat doplňující podklady:", "od svojej banky (ak ich banka vyžaduje).": "od své banky (pokud je banka vyžaduje).", "Potvrdenie o zaplatení": "Potvrzení o zaplacení", "poistného (doklad z bankovníctva alebo šek).": "pojistného (doklad z bankovnictví nebo šek).", "Získané podklady (tlačivá + potvrdenie o platbe) prepošli na e-mail": "Získané podklady (tiskopisy + potvrzení o platbě) přepošli na e-mail", "(klikni pre kopírovanie).": "(klikni pro zkopírování).", "Tím Netfinancie následne zabezpečí oficiálne potvrdenie vinkulácie v poisťovni a jej zaslanie klientovi/banke.": "Tým Netfinancie následně zajistí oficiální potvrzení vinkulace u pojišťovny a jeho zaslání klientovi/bance.", "Rýchly výpočet orientačnej hodnoty domu alebo bytu podľa kraja a m², aby si mal okamžite predstavu pri rozhovore s klientom.": "Rychlý výpočet orientační hodnoty domu nebo bytu podle kraje a m², abys měl při rozhovoru s klientem okamžitě představu.", "Kraj a typ nehnuteľnosti": "Kraj a typ nemovitosti", "Choď zhora nadol. Klikni na číslo, keď máš krok hotový. „Bod“ je číslo v hodnotiacom formulári.": "Jdi shora dolů. Klikni na číslo, když máš krok hotový. „Bod“ je číslo v hodnotícím formuláři.", "„Dobrý deň, volám sa … zo spoločnosti Klik.“": "„Dobrý den, jmenuji se … ze společnosti Klik.“", "údaje o vás a o nehnuteľnosti/domácnosti": "údaje o vás a o nemovitosti/domácnosti", ", potom vám prepočítam ponuky.“": ", potom vám přepočítám nabídky.“", "🚫 Nezabudni na meno, firmu, monitoring a štruktúru hovoru.": "🚫 Nezapomeň na jméno, firmu, monitoring a strukturu hovoru.", "Hotovo: Súčasné poistenie": "Hotovo: Současné pojištění", "Pri zmene, pred ponukou: „Kedy máte": "Při změně, před nabídkou: „Kdy máte", "🚫 Nevynechaj výročie, poisťovňu, cenu ani obsah.": "🚫 Nevynechej výročí, pojišťovnu, cenu ani obsah.", "Zmluva z minulého roka: stačia cenotvorné údaje. Staršia ako 2 roky: over aj súčasné poistenie.": "Smlouva z minulého roku: stačí cenotvorné údaje. Starší než 2 roky: ověř i současné pojištění.", "Hotovo: Čo sa bude počítať": "Hotovo: Co se bude počítat", "nehnuteľnosť, domácnosť alebo oboje": "nemovitost, domácnost nebo obojí", "„Nehnuteľnosť kryje stavbu, domácnosť vybavenie vo vnútri.“": "„Nemovitost kryje stavbu, domácnost vybavení uvnitř.“", "Ak klient odmietne: argumentuj, prečo poistiť": "Pokud klient odmítne: argumentuj, proč pojistit", "🚫 Nepočítaj len jedno. Ponúkni prepočet domácnosti aj nehnuteľnosti.": "🚫 Nepočítej jen jedno. Nabídni přepočet domácnosti i nemovitosti.", "Pri nehnuteľnosti na prenájom domácnosť nehodnotíme.": "U nemovitosti na pronájem domácnost nehodnotíme.", "Hotovo: Potreby, riziká a pripoistenia": "Hotovo: Potřeby, rizika a připojištění", "Potreby, riziká a pripoistenia": "Potřeby, rizika a připojištění", "o nehnuteľnosti/domácnosti": "o nemovitosti/domácnosti", "a pri nehnuteľnosti aj": "a u nemovitosti také", "vysvetli a odprezentuj": "vysvětli a odprezentuj", "🚫 Nepreskakuj údaje, poistnú sumu ani riziká a pripoistenia.": "🚫 Nepřeskakuj údaje, pojistnou částku ani rizika a připojištění.", "Hotovo: Prezentácia produktu": "Hotovo: Prezentace produktu", "poisťovňa, obsah, limity, spoluúčasť, cena": "pojišťovna, obsah, limity, spoluúčast, cena", "„Ponúkam poistenie v … za … €, kryje …, spoluúčasť …“": "„Nabízím pojištění v … za … €, kryje …, spoluúčast …“", "🚫 Nezatajuj lacnejší produkt, keď sa klient pýta na nižšiu cenu.": "🚫 Nezatajuj levnější produkt, když se klient ptá na nižší cenu.", "„Ponuka je pripravená, môžeme ju": "„Nabídka je připravená, můžeme ji", "Pri negácii argumentuj": "Při odmítnutí argumentuj", "ešte pred odoslaním ponúk": "ještě před odesláním nabídek", "🚫 Neposielaj ponuku e-mailom bez snahy o predaj.": "🚫 Neposílej nabídku e-mailem bez snahy o prodej.", "Hotovo: Pred exportom a záver": "Hotovo: Před exportem a závěr", "Zmluvu, podmienky, záznam z rokovania a platobné údaje": "Smlouvu, podmínky, záznam z jednání a platební údaje", "vám pošleme e-mailom.“ (poštou na žiadosť)": "vám pošleme e-mailem.“ (poštou na žádost)", "výpoveď pôvodného poistenia": "výpověď původního pojištění", "6 týždňov pred výročím": "6 týdnů před výročím", "do 2 mesiacov od dojednania": "do 2 měsíců od sjednání", "skontrolujte všetky údaje": "zkontrolujte všechny údaje", "🚫 Nezabudni na výpoveď a kontrolu údajov pred úhradou.": "🚫 Nezapomeň na výpověď a kontrolu údajů před úhradou.", "„Poistné odporúčame uhradiť": "„Pojistné doporučujeme uhradit", "do 5 dní od dojednania": "do 5 dnů od sjednání", "). Päť dní je len naše odporúčanie.": "). Pět dnů je jen naše doporučení.", "Ak nie do 5 dní: dopytaj sa na": "Pokud ne do 5 dnů: zeptej se na", "🚫 Neponúkaj hneď odloženie platby k počiatku.": "🚫 Nenabízej hned odložení platby k počátku.", "Pri počiatku v deň exportu je platba obratom nutná. Zloženky nezasielame.": "Při počátku v den exportu je platba obratem nutná. Složenky nezasíláme.", ", ktorú by sme poistili?“ Ak áno, prepočet, alebo aspoň výročie na poptávku.": ", kterou bychom pojistili?“ Pokud ano, přepočet, nebo aspoň výročí na poptávku.", "🚫 Nezabudni sa opýtať na ďalšiu nehnuteľnosť.": "🚫 Nezapomeň se zeptat na další nemovitost.", "Hotovo: Poznámka a kalendár": "Hotovo: Poznámka a kalendář", "stav PS, výročie, súčasné poistenie, domácnosť/nehnuteľnosť, čo klient rieši": "stav PS, výročí, současné pojištění, domácnost/nemovitost, co klient řeší", "Ak klient neuzavrel: odlož ho": "Pokud klient neuzavřel: odlož ho", "vždy 3 mesiace pred výročím": "vždy 3 měsíce před výročím", "🚫 Nevynechaj nič z poznámky. Odlož presne 3 mesiace pred výročím.": "🚫 Nevynechej nic z poznámky. Odlož přesně 3 měsíce před výročím.", "jednaj korektne a na úrovni. Bez vulgarizmov, pomlúvania konkurencie a skákania do reči.": "jednej korektně a na úrovni. Bez vulgarismů, pomlouvání konkurence a skákání do řeči.", "Klikni na Kopírovať a vlož text do e-mailu. Nevpisuj sem údaje zákazníkov.": "Klikni na Kopírovat a vlož text do e-mailu. Nepiš sem údaje zákazníků.", "Vizitka: kontakt na mňa": "Vizitka: kontakt na mě", "Na konci hovoru alebo v e-maile": "Na konci hovoru nebo v e-mailu", "Otvorí nový e-mail v Outlooku s vyplneným predmetom a textom": "Otevře nový e-mail v Outlooku s vyplněným předmětem a textem", "Dobrý deň, ďakujem za hovor. V prípade akýchkoľvek otázok ma môžete kontaktovať na tomto e-maile. S pozdravom": "Dobrý den,\n\nděkuji za hovor. V případě jakýchkoliv otázek mě můžete kontaktovat na tomto e-mailu.\n\nS pozdravem", "Vinkulácia: čo mi pošlite": "Vinkulace: co mi pošlete", "Keď klient chce poistenie vinkulovať v prospech banky": "Když klient chce pojištění vinkulovat ve prospěch banky", "Dobrý deň, k vinkulácii poistenia v prospech vašej banky prosím zašlite na tento e-mail: 1. vinkulačné tlačivá od vašej banky (ak ich banka vyžaduje), 2. potvrdenie o zaplatení poistného (doklad z bankovníctva). Po ich doručení vinkuláciu potvrdíme u poisťovne a potvrdenie zašleme vám, prípadne priamo banke. S pozdravom": "Dobrý den,\n\nk vinkulaci pojištění ve prospěch vaší banky prosím zašlete na tento e-mail:\n1. vinkulační tiskopisy od vaší banky (pokud je banka vyžaduje),\n2. potvrzení o zaplacení pojistného (doklad z bankovnictví).\n\nPo jejich doručení vinkulaci potvrdíme u pojišťovny a potvrzení zašleme vám, případně přímo bance.\n\nS pozdravem", "Výpoveď pôvodného poistenia": "Výpověď původního pojištění", "Keď klient mení poisťovňu a treba vypovedať staré poistenie": "Když klient mění pojišťovnu a je třeba vypovědět staré pojištění", "Dobrý deň, k výpovedi pôvodného poistenia: výpoveď musí byť poisťovni doručená najneskôr 6 týždňov pred výročím zmluvy. Vzor výpovede nájdete tu: https://www.netfinancie.com/vypoved-poistnej-zmluvy/poistenie-nehnutelnosti/ S pozdravom": "Dobrý den,\n\nk výpovědi původního pojištění: výpověď musí být pojišťovně doručena nejpozději 6 týdnů před výročím smlouvy. Vzor výpovědi najdete zde: https://www.netfinancie.com/vypoved-poistnej-zmluvy/poistenie-nehnutelnosti/\n\nS pozdravem", "Čo nastaviť po hovore a komu kontakt zostáva.": "Co nastavit po hovoru a komu kontakt zůstává.", "Nechávaš pod svojím menom": "Necháváš pod svým jménem", "Preplánované – volaj neskôr": "Přeplánováno – volej později", "Naplánuješ spätný hovor.": "Naplánuješ zpětný hovor.", "Ak je to tvoj kontakt, napríklad si mu už predtým volal a zdvihol ti.": "Pokud je to tvůj kontakt, například jsi mu už předtím volal a zvedl ti to.", "Bez plánovania. Kontakt nechce byť kontaktovaný.": "Bez plánování. Kontakt nechce být kontaktován.", "Ak je to fresh lead, s ktorým si ešte nikdy nehovoril a nedovolal si sa mu. Kontakt znova expiruje o 2 hodiny a dostane ho iný operátor.": "Pokud je to fresh lead, se kterým jsi ještě nikdy nemluvil a nedovolal ses mu. Kontakt znovu expiruje za 2 hodiny a dostane ho jiný operátor.", "Klient rieši nehnuteľnosť, domácnosť a často aj zodpovednosť. Najlepšie je poistiť všetko, lebo každé kryje niečo iné.": "Klient řeší nemovitost, domácnost a často i odpovědnost. Nejlepší je pojistit všechno, protože každé kryje něco jiného.", "Poistenie nehnuteľnosti": "Pojištění nemovitosti", "Kryje samotnú stavbu: steny, strechu, okná, podlahy. Ak víchrica zhodí strom na strechu, platí toto poistenie.": "Kryje samotnou stavbu: stěny, střechu, okna, podlahy. Pokud vichřice shodí strom na střechu, platí toto pojištění.", "Kryje vybavenie vnútri: nábytok, elektro, oblečenie, športové veci.": "Kryje vybavení uvnitř: nábytek, elektro, oblečení, sportovní věci.", "Poistenie zodpovednosti": "Pojištění odpovědnosti", "Platí, keď klient neúmyselne spôsobí škodu niekomu inému, napríklad zatečie sused.": "Platí, když klient neúmyslně způsobí škodu někomu jinému, například zatopí souseda.", "Dom je poistený na nižšiu sumu, než je jeho reálna hodnota. Pri škode potom klient nedostane plnú náhradu.": "Dům je pojištěn na nižší částku, než je jeho reálná hodnota. Při škodě pak klient nedostane plnou náhradu.",'Výpovede':'Výpovědi','Vinkulácie':'Vinkulace','Kalkulačka podpoistenia':'Kalkulačka podpojištění','Šablóny':'Šablony','Majetok':'Majetek','Poistenie majetku SK na jednom mieste':'Pojištění majetku SK na jednom místě','Odkazy, splatnosti, vinkulácie, kalkulačka podpoistenia a skript hovoru. Všetko pri hovore.':'Odkazy, splatnosti, vinkulace, kalkulačka podpojištění a skript hovoru. Vše při hovoru.','Čo potrebuješ nájsť? Napríklad podpoistenie...':'Co potřebuješ najít? Například podpojištění...','Odkazy na prvý hovor':'Odkazy na první hovor','Všetko, čo potrebuješ mať po ruke, keď začneš volať.':'Vše, co potřebuješ mít po ruce, když začneš volat.','Splatnosť poistenia':'Splatnost pojištění','Výpoveď poistenia':'Výpověď pojištění','Šablóny správ':'Šablony zpráv','Ako zatvárať statusy':'Jak zavírat statusy','Poistenie majetku v skratke':'Pojištění majetku ve zkratce','Nič sa nenašlo. Skús iné slovo.':'Nic se nenašlo. Zkus jiné slovo.','Interný pomocník pre nováčikov. Nezadávaj sem údaje zákazníkov.':'Interní pomocník pro nováčky. Nezadávej sem údaje zákazníků.','Je dostupná nová verzia hubu.':'Je dostupná nová verze hubu.','Rýchla navigácia':'Rychlá navigace','Prepnúť svetlý/tmavý režim':'Přepnout světlý/tmavý režim','Svetlý / tmavý režim':'Světlý / tmavý režim','Hľadať v hube':'Hledat v hubu','Užitková plocha nehnuteľnosti (m²)':'Užitná plocha nemovitosti (m²)','Zadaj m² (napr. 75)':'Zadej m² (např. 75)','Zadaj dátum výročia. Zobrazí sa, kedy klienta odložiť a dokedy musí byť doručená výpoveď.':'Zadej datum výročí. Zobrazí se, kdy klienta odložit a dokdy musí být doručena výpověď.','Zadaný dátum už prebehol, počítam k najbližšiemu výročiu.':'Zadané datum už proběhlo, počítám k nejbližšímu výročí.','Poznačiť kontakt':'Poznačit kontakt','Poznačiť 3 mesiace pred výročím':'Poznačit 3 měsíce před výročím','Výpoveď doručiť najneskôr (6 týždňov pred výročím)':'Výpověď doručit nejpozději (6 týdnů před výročím)','⚠ Termín na výpoveď k tomuto výročiu už uplynul.':'⚠ Termín na výpověď k tomuto výročí už uplynul.','Naše odporúčanie: uhradiť do':'Naše doporučení: uhradit do','(5 dní od dojednania).':'(5 dní od sjednání).','Zadaj dátum uzatvorenia.':'Zadej datum uzavření.','Najneskôr do':'Nejpozději do','Najbližšie výročie:':'Nejbližší výročí:','Odporúčaná poistná suma pre zamedzenie podpoistenia:':'Doporučená pojistná částka pro zamezení podpojištění:','Nehnuteľnosť kryje stavbu, domácnosť vybavenie vo vnútri.':'Nemovitost kryje stavbu, domácnost vybavení uvnitř.','Dobrý deň, volám sa … zo spoločnosti Klik.':'Dobrý den, jmenuji se … ze společnosti Klik.'};
+var EX={"Kalkulačka NetFinancie": "Kalkulačka NetFinancie", "Kalkulačka SuperPoistenie": "Kalkulačka SuperPojištění", "Poistenie domu, bytu a domácnosti": "Pojištění domu, bytu a domácnosti", "Kataster nehnuteľností": "Katastr nemovitostí", "Výpoveď poistenia nehnuteľnosti": "Výpověď pojištění nemovitosti", "Dokedy musí klient zaplatiť prvé poistné. Ružová lehota sa počíta od začiatku poistenia, zelená od uzatvorenia.": "Dokdy musí klient zaplatit první pojistné. Růžová lhůta se počítá od počátku pojištění, zelená od uzavření.", "(dnes, mení sa automaticky)": "(dnes, mění se automaticky)", "Začiatok poistenia (počiatok)": "Počátek pojištění", "Dátum splatnosti sa ukáže v bublinách nižšie. Orientačný výpočet v kalendárnych dňoch, presnú lehotu over v podmienkach poisťovne.": "Datum splatnosti se ukáže v bublinách níže. Orientační výpočet v kalendářních dnech, přesnou lhůtu ověř v podmínkách pojišťovny.", "od uzatvorenia poistenia": "od uzavření pojištění", "do 15 kalendárnych dní odo dňa uzatvorenia poistenia": "do 15 kalendářních dnů ode dne uzavření pojištění", "do 30 dní odo dňa uzatvorenia poistenia": "do 30 dnů ode dne uzavření pojištění", "do 5 kalendárnych dní od dátumu začiatku poistenia": "do 5 kalendářních dnů od data počátku pojištění", "v lehote 15 kalendárnych dní odo dňa začiatku poistenia": "v lhůtě 15 kalendářních dnů ode dne počátku pojištění", "do 15 kalendárnych dní od dátumu začiatku poistenia": "do 15 kalendářních dnů od data počátku pojištění", "v lehote desiatich kalendárnych dní odo dňa začiatku poistenia": "v lhůtě deseti kalendářních dnů ode dne počátku pojištění", "Prehľad podateľní, e-mailov poisťovní a možností, kedy je možné poistnú zmluvu vypovedať. (Klikni na e-mail pre skopírovanie)": "Přehled podatelen, e-mailů pojišťoven a možností, kdy lze pojistnou smlouvu vypovědět. (Klikni na e-mail pro zkopírování)", "Výpoveď poistenia nehnuteľnosti – NetFinancie": "Výpověď pojištění nemovitosti – NetFinancie", "Výročie zmluvy klienta": "Výročí smlouvy klienta", "Podateľne a e-maily poisťovní (výpovedná lehota je štandardne 6 týždňov)": "Podatelny a e-maily pojišťoven (výpovědní lhůta je standardně 6 týdnů)", "Možnosť výpovede / Portál": "Možnost výpovědi / Portál", "(portál pre správu zmlúv)": "(portál pro správu smluv)", "(portál aj mobilná appka)": "(portál i mobilní aplikace)", "Dôvody a prípady, kedy možno podať výpoveď": "Důvody a případy, kdy lze podat výpověď", "Ku koncu poistného obdobia": "Ke konci pojistného období", "Výpoveď musí byť doručená poisťovni najneskôr": "Výpověď musí být doručena pojišťovně nejpozději", "pred výročím zmluvy (koncom poistného obdobia).": "před výročím smlouvy (koncem pojistného období).", "Do 2 mesiacov od uzavretia": "Do 2 měsíců od uzavření", "Zmluvu je možné vypovedať do 2 mesiacov od jej dojednania. Výpovedná lehota je 8 dní a poistka zaniká jej uplynutím.": "Smlouvu lze vypovědět do 2 měsíců od jejího sjednání. Výpovědní lhůta je 8 dnů a pojistka zaniká jejím uplynutím.", "Pri vzniku poistnej udalosti": "Při vzniku pojistné události", "Výpoveď je možné podať do 1 mesiaca od oznámenia poskytnutia alebo odmietnutia poistného plnenia.": "Výpověď lze podat do 1 měsíce od oznámení poskytnutí nebo odmítnutí pojistného plnění.", "Zmena vlastníka nehnuteľnosti": "Změna vlastníka nemovitosti", "Pri predaji alebo darovaní nehnuteľnosti. Zaniká dňom zápisu nového vlastníka do katastra (pripája sa list vlastníctva alebo kúpna zmluva).": "Při prodeji nebo darování nemovitosti. Zaniká dnem zápisu nového vlastníka do katastru (přikládá se list vlastnictví nebo kupní smlouva).", "Zánik poistného rizika / predmetu": "Zánik pojistného rizika / předmětu", "Ak nehnuteľnosť fyzicky zanikla (napr. demoličný výmer, zničenie stavby).": "Pokud nemovitost fyzicky zanikla (např. demoliční výměr, zničení stavby).", "Nezaplatením poistného": "Nezaplacením pojistného", "Poistka zanikne automaticky, ak poistné nie je zaplatené do určitej lehoty od výzvy poisťovne (neodporúča sa ako štandardný krok).": "Pojistka zanikne automaticky, pokud pojistné není zaplaceno do určité lhůty od výzvy pojišťovny (nedoporučuje se jako standardní krok).", "Vinkulácia poistenia k hypotéke": "Vinkulace pojištění k hypotéce", "Postup pre operátora, keď klient potrebuje vinkuláciu v prospech banky.": "Postup pro operátora, když klient potřebuje vinkulaci ve prospěch banky.", "Postup spracovania vinkulácie:": "Postup zpracování vinkulace:", "Inštrukcie pre klienta:": "Instrukce pro klienta:", "Klient musí na náš e-mail poslať doplňujúce podklady:": "Klient musí na náš e-mail poslat doplňující podklady:", "od svojej banky (ak ich banka vyžaduje).": "od své banky (pokud je banka vyžaduje).", "Potvrdenie o zaplatení": "Potvrzení o zaplacení", "poistného (doklad z bankovníctva alebo šek).": "pojistného (doklad z bankovnictví nebo šek).", "Získané podklady (tlačivá + potvrdenie o platbe) prepošli na e-mail": "Získané podklady (tiskopisy + potvrzení o platbě) přepošli na e-mail", "(klikni pre kopírovanie).": "(klikni pro zkopírování).", "Tím Netfinancie následne zabezpečí oficiálne potvrdenie vinkulácie v poisťovni a jej zaslanie klientovi/banke.": "Tým Netfinancie následně zajistí oficiální potvrzení vinkulace u pojišťovny a jeho zaslání klientovi/bance.", "Rýchly výpočet orientačnej hodnoty domu alebo bytu podľa kraja a m², aby si mal okamžite predstavu pri rozhovore s klientom.": "Rychlý výpočet orientační hodnoty domu nebo bytu podle kraje a m², abys měl při rozhovoru s klientem okamžitě představu.", "Kraj a typ nehnuteľnosti": "Kraj a typ nemovitosti", "Choď zhora nadol. Klikni na číslo, keď máš krok hotový. „Bod“ je číslo v hodnotiacom formulári.": "Jdi shora dolů. Klikni na číslo, když máš krok hotový. „Bod“ je číslo v hodnotícím formuláři.", "„Dobrý deň, volám sa … zo spoločnosti Klik.“": "„Dobrý den, jmenuji se … ze společnosti Klik.“", "údaje o vás a o nehnuteľnosti/domácnosti": "údaje o vás a o nemovitosti/domácnosti", ", potom vám prepočítam ponuky.“": ", potom vám přepočítám nabídky.“", "🚫 Nezabudni na meno, firmu, monitoring a štruktúru hovoru.": "🚫 Nezapomeň na jméno, firmu, monitoring a strukturu hovoru.", "Hotovo: Súčasné poistenie": "Hotovo: Současné pojištění", "Pri zmene, pred ponukou: „Kedy máte": "Při změně, před nabídkou: „Kdy máte", "🚫 Nevynechaj výročie, poisťovňu, cenu ani obsah.": "🚫 Nevynechej výročí, pojišťovnu, cenu ani obsah.", "Zmluva z minulého roka: stačia cenotvorné údaje. Staršia ako 2 roky: over aj súčasné poistenie.": "Smlouva z minulého roku: stačí cenotvorné údaje. Starší než 2 roky: ověř i současné pojištění.", "Hotovo: Čo sa bude počítať": "Hotovo: Co se bude počítat", "nehnuteľnosť, domácnosť alebo oboje": "nemovitost, domácnost nebo obojí", "„Nehnuteľnosť kryje stavbu, domácnosť vybavenie vo vnútri.“": "„Nemovitost kryje stavbu, domácnost vybavení uvnitř.“", "Ak klient odmietne: argumentuj, prečo poistiť": "Pokud klient odmítnu: argumentuj, proč pojistit", "🚫 Nepočítaj len jedno. Ponúkni prepočet domácnosti aj nehnuteľnosti.": "🚫 Nepočítej jen jedno. Nabídni přepočet domácnosti i nemovitosti.", "Pri nehnuteľnosti na prenájom domácnosť nehodnotíme.": "U nemovitosti na pronájem domácnost nehodnotíme.", "Hotovo: Potreby, riziká a pripoistenia": "Hotovo: Potřeby, rizika a připojištění", "Potreby, riziká a pripoistenia": "Potřeby, rizika a připojištění", "o nehnuteľnosti/domácnosti": "o nemovitosti/domácnosti", "a pri nehnuteľnosti aj": "a u nemovitosti také", "vysvetli a odprezentuj": "vysvětli a odprezentuj", "🚫 Nepreskakuj údaje, poistnú sumu ani riziká a pripoistenia.": "🚫 Nepřeskakuj údaje, pojistnou částku ani rizika a připojištění.", "Hotovo: Prezentácia produktu": "Hotovo: Prezentace produktu", "poisťovňa, obsah, limity, spoluúčasť, cena": "pojišťovna, obsah, limity, spoluúčast, cena", "„Ponúkam poistenie v … za … €, kryje …, spoluúčasť …“": "„Nabízím pojištění v … za … €, kryje …, spoluúčast …“", "🚫 Nezatajuj lacnejší produkt, keď sa klient pýta na nižšiu cenu.": "🚫 Nezatajuj levnější produkt, když se klient ptá na nižší cenu.", "„Ponuka je pripravená, môžeme ju": "„Nabídka je připravená, můžeme ji", "Pri negácii argumentuj": "Při odmítnutí argumentuj", "ešte pred odoslaním ponúk": "ještě před odesláním nabídek", "🚫 Neposielaj ponuku e-mailom bez snahy o predaj.": "🚫 Neposílej nabídku e-mailem bez snahy o prodej.", "Hotovo: Pred exportom a záver": "Hotovo: Před exportem a závěr", "Zmluvu, podmienky, záznam z rokovania a platobné údaje": "Smlouvu, podmínky, záznam z jednání a platební údaje", "vám pošleme e-mailom.“ (poštou na žiadosť)": "vám pošleme e-mailem.“ (poštou na žádost)", "výpoveď pôvodného poistenia": "výpověď původního pojištění", "6 týždňov pred výročím": "6 týdnů před výročím", "do 2 mesiacov od dojednania": "do 2 měsíců od sjednání", "skontrolujte všetky údaje": "zkontrolujte všechny údaje", "🚫 Nezabudni na výpoveď a kontrolu údajov pred úhradou.": "🚫 Nezapomeň na výpověď a kontrolu údajů před úhradou.", "„Poistné odporúčame uhradiť": "„Pojistné doporučujeme uhradit", "do 5 dní od dojednania": "do 5 dnů od sjednání", "). Päť dní je len naše odporúčanie.": "). Pět dnů je jen naše doporučení.", "Ak nie do 5 dní: dopytaj sa na": "Pokud ne do 5 dnů: zeptej se na", "🚫 Neponúkaj hneď odloženie platby k počiatku.": "🚫 Nenabízej hned odložení platby k počátku.", "Pri počiatku v deň exportu je platba obratom nutná. Zloženky nezasielame.": "Při počátku v den exportu je platba obratem nutná. Složenky nezasíláme.", ", ktorú by sme poistili?“ Ak áno, prepočet, alebo aspoň výročie na poptávku.": ", kterou bychom pojistili?“ Pokud ano, přepočet, nebo aspoň výročí na poptávku.", "🚫 Nezabudni sa opýtať na ďalšiu nehnuteľnosť.": "🚫 Nezapomeň se zeptat na další nemovitost.", "Hotovo: Poznámka a kalendár": "Hotovo: Poznámka a kalendář", "stav PS, výročie, súčasné poistenie, domácnosť/nehnuteľnosť, čo klient rieši": "stav PS, výročí, současné pojištění, domácnost/nemovitost, co klient řeší", "Ak klient neuzavrel: odlož ho": "Pokud klient neuzavřel: odlož ho", "vždy 3 mesiace pred výročím": "vždy 3 měsíce před výročím", "🚫 Nevynechaj nič z poznámky. Odlož presne 3 mesiace pred výročím.": "🚫 Nevynechej nic z poznámky. Odlož přesně 3 měsíce před výročím.", "jednaj korektne a na úrovni. Bez vulgarizmov, pomlúvania konkurencie a skákania do reči.": "jednej korektně a na úrovni. Bez vulgarismů, pomlouvání konkurence a skákání do řeči.", "Klikni na Kopírovať a vlož text do e-mailu. Nevpisuj sem údaje zákazníkov.": "Klikni na Kopírovat a vlož text do e-mailu. Nepiš sem údaje zákazníků.", "Vizitka: kontakt na mňa": "Vizitka: kontakt na mě", "Na konci hovoru alebo v e-maile": "Na konci hovoru nebo v e-mailu", "Otvorí nový e-mail v Outlooku s vyplneným predmetom a textom": "Otevře nový e-mail v Outlooku s vyplněným předmětem a textem", "Dobrý deň, ďakujem za hovor. V prípade akýchkoľvek otázok ma môžete kontaktovať na tomto e-maile. S pozdravom": "Dobrý den,\n\nděkuji za hovor. V případě jakýchkoliv otázek mě můžete kontaktovat na tomto e-mailu.\n\nS pozdravem", "Vinkulácia: čo mi pošlite": "Vinkulace: co mi pošlete", "Keď klient chce poistenie vinkulovať v prospech banky": "Když klient chce pojištění vinkulovat ve prospěch banky", "Dobrý deň, k vinkulácii poistenia v prospech vašej banky prosím zašlite na tento e-mail: 1. vinkulačné tlačivá od vašej banky (ak ich banka vyžaduje), ktoré musia byť podpísané klientom, 2. potvrdenie o zaplatení poistného (doklad z bankovníctva). Po ich doručení vinkuláciu potvrdíme u poisťovne a potvrdenie zašleme vám, prípadne priamo banke. S pozdravom": "Dobrý den,\n\nk vinkulaci pojištění ve prospěch vaší banky prosím zašlete na tento e-mail:\n1. vinkulační tiskopisy od vaší banky (pokud je banka vyžaduje),\n2. potvrzení o zaplacení pojistného (doklad z bankovnictví).\n\nPo jejich doručení vinkulaci potvrdíme u pojišťovny a potvrzení zašleme vám, případně přímo bance.\n\nS pozdravem", "Výpoveď pôvodného poistenia": "Výpověď původního pojištění", "Keď klient mení poisťovňu a treba vypovedať staré poistenie": "Když klient mění pojišťovnu a je třeba vypovědět staré pojištění", "Dobrý deň, k výpovedi pôvodného poistenia: výpoveď musí byť poisťovni doručená najneskôr 6 týždňov pred výročím zmluvy. Vzor výpovede nájdete tu: https://www.netfinancie.com/vypoved-poistnej-zmluvy/poistenie-nehnutelnosti/ S pozdravom": "Dobrý den,\n\nk výpovědi původního pojištění: výpověď musí být pojišťovně doručena nejpozději 6 týdnů před výročím smlouvy. Vzor výpovědi najdete zde: https://www.netfinancie.com/vypoved-poistnej-zmluvy/poistenie-nehnutelnosti/\n\nS pozdravem", "Čo nastaviť po hovore a komu kontakt zostáva.": "Co nastavit po hovoru a komu kontakt zůstává.", "Nechávaš pod svojím menom": "Necháváš pod svým jménem", "Preplánované – volaj neskôr": "Přeplánováno – volej později", "Naplánuješ spätný hovor.": "Naplánuješ zpětný hovor.", "Ak je to tvoj kontakt, napríklad si mu už predtým volal a zdvihol ti.": "Pokud je to tvůj kontakt, například jsi mu už předtím volal a zvedl ti to.", "Bez plánovania. Kontakt nechce byť kontaktovaný.": "Bez plánování. Kontakt nechce být kontaktován.", "Ak je to fresh lead, s ktorým si ešte nikdy nehovoril a nedovolal si sa mu. Kontakt znova expiruje o 2 hodiny a dostane ho iný operátor.": "Pokud je to fresh lead, se kterým jsi ještě nikdy nemluvil a nedovolal ses mu. Kontakt znovu expiruje za 2 hodiny a dostane ho jiný operátor.", "Klient rieši nehnuteľnosť, domácnosť a často aj zodpovednosť. Najlepšie je poistiť všetko, lebo každé kryje niečo iné.": "Klient řeší nemovitost, domácnost a často i odpovědnost. Nejlepší je pojistit všechno, protože každé kryje něco jiného.", "Poistenie nehnuteľnosti": "Pojištění nemovitosti", "Kryje samotnú stavbu: steny, strechu, okná, podlahy. Ak víchrica zhodí strom na strechu, platí toto poistenie.": "Kryje samotnou stavbu: stěny, střechu, okna, podlahy. Pokud vichřice shodí strom na střechu, platí toto pojištění.", "Kryje vybavenie vnútri: nábytok, elektro, oblečenie, športové veci.": "Kryje vybavení uvnitř: nábytek, elektro, oblečení, sportovní věci.", "Poistenie zodpovednosti": "Pojištění odpovědnosti", "Platí, keď klient neúmyselne spôsobí škodu niekomu inému, napríklad zatečie sused.": "Platí, když klient neúmyslně způsobí škodu někomu jinému, například zatopí souseda.", "Dom je poistený na nižšiu sumu, než je jeho reálna hodnota. Pri škode potom klient nedostane plnú náhradu.": "Dům je pojištěn na nižší částku, než je jeho reálná hodnota. Při škodě pak klient nedostane plnou náhradu.",'Výpovede':'Výpovědi','Vinkulácie':'Vinkulace','Kalkulačka podpoistenia':'Kalkulačka podpojištění','Šablóny':'Šablony','Majetok':'Majetek','Poistenie majetku SK na jednom mieste':'Pojištění majetku SK na jednom místě','Odkazy, splatnosti, vinkulácie, kalkulačka podpoistenia a skript hovoru. Všetko pri hovore.':'Odkazy, splatnosti, vinkulace, kalkulačka podpojištění a skript hovoru. Vše při hovoru.','Čo potrebuješ nájsť? Napríklad podpoistenie...':'Co potřebuješ najít? Například podpojištění...','Odkazy na prvý hovor':'Odkazy na první hovor','Všetko, čo potrebuješ mať po ruke, keď začneš volať.':'Vše, co potřebuješ mít po ruce, když začneš volat.','Splatnosť poistenia':'Splatnost pojištění','Výpoveď poistenia':'Výpověď pojištění','Šablóny správ':'Šablony zpráv','Ako zatvárať statusy':'Jak zavírat statusy','Poistenie majetku v skratke':'Pojištění majetku ve zkratce','Nič sa nenašlo. Skús iné slovo.':'Nic se nenašlo. Zkus jiné slovo.','Interný pomocník pre nováčikov. Nezadávaj sem údaje zákazníkov.':'Interní pomocník pro nováčky. Nezadávej sem údaje zákazníků.','Je dostupná nová verzia hubu.':'Je dostupná nová verze hubu.','Rýchla navigácia':'Rychlá navigace','Prepnúť svetlý/tmavý režim':'Přepnout světlý/tmavý režim','Svetlý / tmavý režim':'Světlý / tmavý režim','Hľadať v hube':'Hledat v hubu','Užitková plocha nehnuteľnosti (m²)':'Užitná plocha nemovitosti (m²)','Zadaj m² (napr. 75)':'Zadej m² (např. 75)','Zadaj dátum výročia. Zobrazí sa, kedy klienta odložiť a dokedy musí byť doručená výpoveď.':'Zadej datum výročí. Zobrazí se, kdy klienta odložit a dokdy musí být doručena výpověď.','Zadaný dátum už prebehol, počítam k najbližšiemu výročiu.':'Zadané datum už proběhlo, počítám k nejbližšímu výročí.','Poznačiť kontakt':'Poznačit kontakt','Poznačiť 3 mesiace pred výročím':'Poznačit 3 měsíce před výročím','Výpoveď doručiť najneskôr (6 týždňov pred výročím)':'Výpověď doručit nejpozději (6 týdnů před výročím)','⚠ Termín na výpoveď k tomuto výročiu už uplynul.':'⚠ Termín na výpověď k tomuto výročí už uplynul.','Naše odporúčanie: uhradiť do':'Naše doporučení: uhradit do','(5 dní od dojednania).':'(5 dní od sjednání).','Zadaj dátum uzatvorenia.':'Zadej datum uzavření.','Najneskôr do':'Nejpozději do','Najbližšie výročie:':'Nejbližší výročí:','Odporúčaná poistná suma pre zamedzenie podpoistenia:':'Doporučená pojistná částka pro zamezení podpojištění:','Nehnuteľnosť kryje stavbu, domácnosť vybavenie vo vnútri.':'Nemovitost kryje stavbu, domácnost vybavení uvnitř.','Dobrý deň, volám sa … zo spoločnosti Klik.':'Dobrý den, jmenuji se … ze společnosti Klik.'};
 Object.assign(EX,{'od svojej banky (ak ich banka vyžaduje) musia byť':'od své banky (pokud je banka vyžaduje) musí být','podpísané klientom':'podepsané klientem','Vinkulačné tlačivá':'Vinkulační tiskopisy'});
-var W={"nehnuteľnosť": "nemovitost", "nehnuteľnosti": "nemovitosti", "nehnuteľností": "nemovitostí", "ďalšiu": "další", "ďalšie": "další", "dom": "dům", "nitriansky": "nitranský", "trenčiansky": "trenčínský", "týždňov": "týdnů", "týždne": "týdny", "týždňa": "týdne", "päť": "pět", "riešiť": "řešit", "hovore": "hovoru", "poistka": "pojistka", "poistku": "pojistku", "nižšie": "níže", "nižšiu": "nižší", "počíta": "počítá",'poistenie':'pojištění','poistenia':'pojištění','poistení':'pojištění','poistením':'pojištěním','poistnú':'pojistnou','poistnej':'pojistné','poisťovne':'pojišťovny','poisťovňa':'pojišťovna','poisťovni':'pojišťovně','poisťovňu':'pojišťovnu','poisťovní':'pojišťoven','poisťovňami':'pojišťovnami','výpovede':'výpovědi','výpoveďou':'výpovědí','výročie':'výročí','výročia':'výročí','mesiacov':'měsíců','mesiaca':'měsíce','mesiace':'měsíce','mesiac':'měsíc','mesiacoch':'měsících','dňa':'dne','dňom':'dnem','dňami':'dny','dni':'dny','deň':'den','ak':'pokud','aj':'i','alebo':'nebo','keď':'když','kedy':'kdy','čo':'co','čoho':'čeho','nie':'ne','pre':'pro','pri':'při','vo':'ve','zo':'ze','so':'se','sa':'se','ku':'ke','ešte':'ještě','ako':'jako','len':'jen','som':'jsem','sú':'jsou','byť':'být','mať':'mít','nájsť':'najít','nič':'nic','skús':'zkus','iné':'jiné','iná':'jiná','inú':'jinou','iný':'jiný','nezabudni':'nezapomeň','odporúčame':'doporučujeme','odporúčanie':'doporučení','odporúčaná':'doporučená','obdobia':'období','koncu':'konci','možno':'lze','kde':'kde','tu':'zde','vám':'vám','vás':'vás','nás':'nás','naše':'naše','náš':'náš','náš':'náš','zákazníkov':'zákazníků','nováčikov':'nováčky','štruktúru':'strukturu','spoločnosti':'společnosti','hneď':'hned','teraz':'nyní','zhora':'shora','nadol':'dolů','choď':'jdi','čísla':'čísla','kraj':'kraj','trnavský':'trnavský','za':'za'};
+var W={"nehnuteľnosť": "nemovitost", "nehnuteľnosti": "nemovitosti", "nehnuteľností": "nemovitostí", "ďalšiu": "další", "ďalšie": "další", "dom": "dům", "nitriansky": "nitranský", "trenčiansky": "trenčínský", "týždňov": "týdnů", "týždne": "týdny", "týždňa": "týdne", "päť": "pět", "riešiť": "řešit", "hovore": "hovoru", "poistka": "pojistka", "poistku": "pojistku", "nižšie": "níže", "nižšiu": "nižší", "počíta": "počítá",'poistenie':'pojištění','poistenia':'pojištění','poistení':'pojištění','poistením':'pojištěním','poistnú':'pojistnou','poistnej':'pojistné','poisťovne':'pojišťovny','poisťovňa':'pojišťovna','poisťovni':'pojišťovně','poisťovňu':'pojišťovnu','poisťovní':'pojišťoven','poisťovňami':'pojišťovnami','výpovede':'výpovědi','výpoveďou':'výpovědí','výročie':'výročí','výročia':'výročí','mesiacov':'měsíců','mesiaca':'měsíce','mesiace':'měsíce','mesiac':'měsíc','mesiacoch':'měsících','dňa':'dne','dňom':'dnem','dňami':'dny','dni':'dny','deň':'den','ak':'pokud','aj':'i','alebo':'nebo','keď':'když','kedy':'kdy','čo':'co','čoho':'čeho','nie':'ne','pre':'pro','pri':'při','vo':'ve','zo':'ze','so':'se','sa':'se','ku':'ke','ešte':'ještě','ako':'jako','len':'jen','som':'jsem','sú':'jsou','byť':'být','mať':'mít','nájsť':'najít','nič':'nic','skús':'zkus','iné':'jiné','iná':'jiná','inú':'jinou','iný':'jiný','nezabudni':'nezapomeň','odporúčame':'doporučujeme','odporúčanie':'doporučení','odporúčaná':'doporučená','obdobia':'období','koncu':'konci','možno':'lze','kde':'kde','tu':'zde','vám':'vám','vás':'vás','nás':'nás','naše':'naše','náš':'náš','náš':'náš','zákazníkov':'zákazníků','nováčikov':'nováčky','štruktúru':'strukturu','spoločnosti':'spoločnosti','hneď':'hned','teraz':'nyní','zhora':'shora','nadol':'dolů','choď':'jdi','čísla':'čísla','kraj':'kraj','trnavský':'trnavský','za':'za'};
 var S=[['poisťov','pojišťov'],['poisten','pojištěn'],['poistn','pojistn'],['poist','pojist'],['vypoved','vypověd'],['výpoved','výpověd'],['výpoveď','výpověď'],['nehnuteľnost','nemovitost'],['nehnuteľn','nemovitn'],['domácnosť','domácnost'],['splatnosť','splatnost'],['zmluv','smlouv'],['zmlúv','smluv'],['dojednan','sjednán'],['dojedna','sjedna'],['uzatvor','uzavř'],['lehot','lhůt'],['týždň','týdn'],['týždne','týdne'],['ktor','kter'],['kopírov','kopírov'],['skopír','zkopír'],['hľad','hled'],['prehľad','přehled'],['dôvod','důvod'],['prípad','případ'],['predstav','představ'],['potreb','potřeb'],['odporúč','doporuč'],['zabudn','zapomen'],['zapíš','zapiš'],['zákazn','zákazn'],['podateľn','podatelen'],['plnen','plněn'],['oznámen','oznámen'],['odmietn','odmítn'],['poskytn','poskytn'],['predaj','prodej'],['vlastník','vlastník'],['kataster','katastr'],['katastra','katastru'],['zánik','zánik'],['zniči','zniči'],['zničen','zničen'],['vybaven','vybaven'],['kontakt','kontakt'],['plánovan','plánován'],['volať','volat'],['dopyt','dotaz'],['dopytaj','zeptej'],['pripoisten','připojištěn'],['pripoist','připojist'],['spoluúčas','spoluúčast'],['hodnotiac','hodnotící'],['formulár','formulář'],['ponuk','nabídk'],['ponúk','nabíd'],['ponuku','nabídku'],['uhrad','uhrad'],['zaplaten','zaplacen'],['zaplat','zaplat'],['mesiac','měsíc'],['pošlit','pošlete'],['zašlit','zašlete'],['vinkul','vinkul'],['úrov','úrov'],['pomlúv','pomlouv'],['skákan','skákán'],['reč','řeč'],['stručn','stručn'],['prehľadn','přehledn'],['výpočet','výpočet'],['rozhovor','rozhovor'],['kalkulačk','kalkulačk'],['platb','platb'],['platí','platí'],['zloženk','složenk'],['zasielam','zasíláme'],['obratom','obratem'],['počiatk','počátk'],['začiatk','začátk'],['začn','začn'],['zákon','zákon'],['rok','rok'],['roku','roku'],['minulého','minulého'],['staršia','starší'],['súčasn','současn'],['cenotvorn','cenotvorn'],['údaj','údaj'],['nehnuteľ','nemovit'],['obsah','obsah'],['prenáj','pronáj'],['prenajím','pronajím'],['ďalš','další'],['argumentuj','argumentuj'],['hneď','hned'],['stále','stále'],['druhý','druhý'],['odlož','odlož'],['kalendár','kalendář'],['poznámk','poznámk'],['prepošl','přepošl'],['získan','získan'],['podklad','podklad'],['doplňuj','doplňuj'],['nechávaš','necháváš'],['preplánovan','přeplánován'],['neskôr','později'],['spätn','zpětn'],['nedovolan','nedovolan'],['zdvihol','zvedl'],['záujem','zájem'],['dávaš','dáváš'],['hodiny','hodiny'],['operátor','operátor'],['expiruje','expiruje'],['hovor','hovor'],['vlož','vlož'],['nevpisuj','nepiš'],['otvorí','otevře'],['vyplnen','vyplněn'],['predmet','předmět'],['mňa','mě'],['mojim','mým'],['môž','můž'],['ďakuj','děkuj'],['pozdrav','pozdrav'],['akýchkoľvek','jakýchkoliv'],['otázok','otázek'],['tomto','tomto'],['prospech','prospěch'],['bankovníctv','bankovnictv'],['zaslan','zaslán'],['prípadne','případně'],['priamo','přímo'],['banke','bance'],['doručen','doručen'],['najneskôr','nejpozději'],['zaniká','zaniká'],['zanikne','zanikne'],['vyvolen','vyvolen'],['demoličn','demoliční'],['výmer','výměr'],['stavby','stavby'],['zápis','zápis'],['list','list'],['vlastníctv','vlastnictv'],['kúpn','kupn'],['rizika','rizika'],['predmet','předmět'],['fyzick','fyzick'],['neodporúč','nedoporuč'],['štandardn','standardn'],['krok','krok']];
 S.sort(function(a,b){return b[0].length-a[0].length;});
 function cap(o,n){if(o.length>1&&o===o.toUpperCase())return n.toUpperCase();return o.charAt(0)===o.charAt(0).toUpperCase()?n.charAt(0).toUpperCase()+n.slice(1):n;}
@@ -864,6 +921,312 @@ function tr(t){var m=t.match(/^(\s*)([\s\S]*?)(\s*)$/),c=m[2];if(!c)return t;
   obs=new MutationObserver(function(ms){if(busy)return;obs.disconnect();ms.forEach(function(m){m.addedNodes.forEach(function(n){if(n.nodeType===3){if(n.nodeValue.trim()&&!skip(n)){var v=tr(n.nodeValue);if(v!==n.nodeValue)n.nodeValue=v;}}else if(n.nodeType===1)run(n);});});obs.observe(document.body,{childList:true,subtree:true});});
   obs.observe(document.body,{childList:true,subtree:true});
 })();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// --- DOKUMENTY (Supabase: spoločné úložisko + prihlásenie vedenia) ---
+const SUPABASE_URL = 'https://eiaevatcnohzcwvrnjkk.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_qweFe9nw3Mh-JbfBUHBy7w_KkKP-rmE';
+
+let sb = null, docSession = null, docsCache = [];
+const docById = {};
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function fmtSize(n) {
+  if (!n) return '';
+  return n >= 1048576 ? (n / 1048576).toFixed(2) + ' MB' : (n / 1024).toFixed(1) + ' KB';
+}
+function docIcon(d) {
+  if (d.kind === 'link') return '🔗';
+  var f = (d.file_name || '').toLowerCase();
+  if (/\.(xlsx?|csv)$/.test(f)) return '📊';
+  if (/\.pdf$/.test(f)) return '📕';
+  if (/\.docx?$/.test(f)) return '📝';
+  return '📄';
+}
+function isViewable(d) {
+  var m = (d.mime || '').toLowerCase(), f = (d.file_name || '').toLowerCase();
+  return m === 'application/pdf' || m.indexOf('image/') === 0 || m === 'text/plain' || /\.(pdf|png|jpe?g|gif|webp|txt)$/.test(f);
+}
+function docsMsg(t) {
+  var el = document.getElementById('doc-msg');
+  if (!el) return;
+  el.textContent = t || '';
+  el.classList.toggle('hide', !t);
+}
+
+function docsInit() {
+  if (!window.supabase || !SUPABASE_KEY) {
+    docsMsg('Dokumenty ešte nie sú pripojené: do kódu treba vložiť kľúč zo Supabase (SUPABASE_KEY).');
+    return;
+  }
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  sb.auth.getSession().then(function(r) {
+    docSession = r.data.session;
+    authUI();
+    loadDocs();
+  });
+  sb.auth.onAuthStateChange(function(_e, s) {
+    docSession = s;
+    setTimeout(function() { authUI(); loadDocs(); }, 0);
+  });
+}
+
+function authUI() {
+  var logged = !!docSession;
+  document.getElementById('vedenie-login-box').classList.toggle('hide', logged);
+  document.getElementById('vedenie-upload-box').classList.toggle('hide', !logged);
+  document.getElementById('btn-doc-logout').classList.toggle('hide', !logged);
+  if (logged) document.getElementById('vedenie-user-badge').textContent = 'Prihlásený: ' + docSession.user.email;
+}
+
+function switchDocSubtab(type) {
+  var op = type === 'operator';
+  document.getElementById('btn-sub-operator').classList.toggle('active-subtab', op);
+  document.getElementById('btn-sub-vedenie').classList.toggle('active-subtab', !op);
+  document.getElementById('doc-subtab-operator').classList.toggle('hide', !op);
+  document.getElementById('doc-subtab-vedenie').classList.toggle('hide', op);
+  loadDocs();
+}
+
+function processVedenieLogin() {
+  if (!sb) { alert('Dokumenty nie sú pripojené.'); return; }
+  var email = document.getElementById('v-email').value.trim();
+  var pass = document.getElementById('v-pass').value;
+  sb.auth.signInWithPassword({ email: email, password: pass }).then(function(r) {
+    if (r.error) alert('Prihlásenie zlyhalo: ' + r.error.message);
+    else document.getElementById('v-pass').value = '';
+  });
+}
+function logoutVedenie() {
+  if (!sb) return;
+  sb.auth.signOut().then(function() {
+    docSession = null;
+    docsCache = [];
+    authUI();
+    switchDocSubtab('operator');
+  });
+}
+
+function toggleAddForm(force) {
+  var f = document.getElementById('doc-add-form'), b = document.getElementById('doc-add-toggle');
+  if (!f) return;
+  var open = (typeof force === 'boolean') ? force : f.classList.contains('hide');
+  f.classList.toggle('hide', !open);
+  b.textContent = open ? '✖ Zavrieť' : '➕ Pridať dokument';
+  if (open) f.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function onDocKindChange() {
+  var isLink = document.getElementById('doc-kind').value === 'link';
+  document.getElementById('doc-url-wrap').classList.toggle('hide', !isLink);
+  document.getElementById('doc-file-wrap').classList.toggle('hide', isLink);
+}
+
+function loadDocs() {
+  if (!sb) return;
+  sb.from('hub_documents').select('*').order('created_at', { ascending: false }).then(function(r) {
+    if (r.error) { docsMsg('Chyba pri načítaní dokumentov: ' + r.error.message); return; }
+    docsMsg('');
+    docsCache = r.data || [];
+    renderDocs();
+  });
+}
+
+function normTxt(t) { return String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+function getPins(k) { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch (e) { return []; } }
+function setPins(k, a) { try { localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} }
+function togglePin(k, id) {
+  var a = getPins(k), i = a.indexOf(id);
+  if (i > -1) a.splice(i, 1); else a.push(id);
+  setPins(k, a);
+}
+function copyToClip(text, btn) {
+  var done = function() {
+    if (!btn) return;
+    var o = btn.getAttribute('data-o') || btn.textContent;
+    btn.setAttribute('data-o', o);
+    btn.textContent = btn.classList.contains('tl-btn') ? 'Skopírované ✓' : '✓';
+    setTimeout(function() { btn.textContent = o; }, 1500);
+  };
+  var fb = function() {
+    var t = document.createElement('textarea');
+    t.value = text; t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(t);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fb); else fb();
+}
+function docShareUrl(d) {
+  if (d.kind === 'link') return d.url;
+  if (d.audience === 'operator' && sb) return sb.storage.from('docs-operator').getPublicUrl(d.file_path).data.publicUrl;
+  return null;   // súbory pre vedenie majú len dočasný odkaz
+}
+function pinDoc(id) { togglePin('hub_pins_docs', id); renderDocs(); }
+function copyDocLink(id, btn) {
+  var d = docById[id], u = d && docShareUrl(d);
+  if (u) copyToClip(u, btn);
+}
+function onDocSearch() { renderDocs(); }
+
+function docCard(d, canDelete) {
+  docById[d.id] = d;
+  var pinned = getPins('hub_pins_docs').indexOf(d.id) > -1;
+  var meta = d.kind === 'link' ? 'Odkaz' : esc(d.file_name) + (d.file_size ? ' (' + fmtSize(d.file_size) + ')' : '');
+  var date = new Date(d.created_at).toLocaleDateString('sk-SK');
+  var btns = '';
+  if (d.kind === 'link') {
+    btns += '<button type="button" class="tl-btn" onclick="openDoc(\'' + d.id + '\')">🔗 Otvoriť</button>';
+  } else {
+    if (isViewable(d)) btns += '<button type="button" class="tl-btn" onclick="openDoc(\'' + d.id + '\')">👁 Otvoriť</button>';
+    btns += '<button type="button" class="tl-btn" onclick="openDoc(\'' + d.id + '\', true)">💾 Stiahnuť</button>';
+  }
+  if (docShareUrl(d)) btns += '<button type="button" class="tl-btn" onclick="copyDocLink(\'' + d.id + '\', this)">📋 Kopírovať odkaz</button>';
+  btns += '<button type="button" class="tl-btn" onclick="pinDoc(\'' + d.id + '\')">' + (pinned ? '★ Pripnuté' : '☆ Pripnúť') + '</button>';
+  if (canDelete) btns += '<button type="button" class="tl-btn" style="background:rgba(192,57,43,0.15); color:var(--bad);" onclick="deleteDocument(\'' + d.id + '\')">🗑 Vymazať</button>';
+  return '<div class="card"><h3 data-notr>' + (pinned ? '⭐ ' : '') + docIcon(d) + ' ' + esc(d.title) + '</h3>' +
+    '<p><small data-notr>' + meta + '</small></p>' +
+    '<p><small>Pridané: ' + date + '</small></p>' +
+    '<div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">' + btns + '</div></div>';
+}
+
+function prepList(list) {
+  var q = normTxt((document.getElementById('doc-search') || {}).value || '').trim();
+  var pins = getPins('hub_pins_docs');
+  var out = list.filter(function(d) { return !q || normTxt(d.title).indexOf(q) > -1; });
+  var top = out.filter(function(d) { return pins.indexOf(d.id) > -1; });
+  var rest = out.filter(function(d) { return pins.indexOf(d.id) < 0; });
+  return top.concat(rest);
+}
+
+function renderDocs() {
+  var logged = !!docSession;
+  var searching = !!((document.getElementById('doc-search') || {}).value || '').trim();
+  var empty = '<div class="card" style="grid-column: 1/-1;"><p>' + (searching ? 'Nič sa nenašlo.' : 'Zatiaľ tu nič nie je.') + '</p></div>';
+  var op = prepList(docsCache.filter(function(d) { return d.audience === 'operator'; }));
+  var ved = prepList(docsCache.filter(function(d) { return d.audience === 'vedenie'; }));
+  var opEl = document.getElementById('doc-list-operator');
+  var vedEl = document.getElementById('doc-list-vedenie');
+  if (opEl) opEl.innerHTML = op.length ? op.map(function(d) { return docCard(d, logged); }).join('') : empty;
+  if (vedEl) vedEl.innerHTML = ved.length ? ved.map(function(d) { return docCard(d, true); }).join('') : empty;
+}
+
+async function getDocUrl(d, download) {
+  var bucket = 'docs-' + d.audience;
+  if (d.audience === 'operator') {
+    return sb.storage.from(bucket).getPublicUrl(d.file_path, download ? { download: d.file_name } : undefined).data.publicUrl;
+  }
+  var r = await sb.storage.from(bucket).createSignedUrl(d.file_path, 300, download ? { download: d.file_name } : undefined);
+  return r.error ? null : r.data.signedUrl;
+}
+
+function openDoc(id, download) {
+  var d = docById[id];
+  if (!d || !sb) return;
+  if (d.kind === 'link') { window.open(d.url, '_blank', 'noopener'); return; }
+  var w = download ? null : window.open('', '_blank');
+  getDocUrl(d, download).then(function(u) {
+    if (!u) { if (w) w.close(); alert('Súbor sa nepodarilo otvoriť.'); return; }
+    if (download) {
+      var a = document.createElement('a');
+      a.href = u; a.download = d.file_name;
+      document.body.appendChild(a); a.click(); a.remove();
+    } else if (w) { w.opener = null; w.location.href = u; }
+  });
+}
+
+async function uploadDocument() {
+  if (!sb || !docSession) { alert('Najprv sa prihlás.'); return; }
+  var title = document.getElementById('doc-title').value.trim();
+  var kind = document.getElementById('doc-kind').value;
+  var aud = document.getElementById('doc-aud').value;
+  if (!title) { alert('Vlož názov.'); return; }
+
+  var row = { title: title, kind: kind, audience: aud, uploader: docSession.user.email };
+  var path = null, bucket = 'docs-' + aud;
+
+  if (kind === 'link') {
+    var u = document.getElementById('doc-url').value.trim();
+    if (!u) { alert('Vlož odkaz.'); return; }
+    if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+    row.url = u;
+  } else {
+    var fi = document.getElementById('doc-file');
+    if (!fi.files || !fi.files.length) { alert('Vyber súbor.'); return; }
+    var file = fi.files[0];
+    var safe = file.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9._-]+/g, '_');
+    path = Date.now() + '_' + safe;
+    var up = await sb.storage.from(bucket).upload(path, file, { contentType: file.type || 'application/octet-stream' });
+    if (up.error) { alert('Nahrávanie zlyhalo: ' + up.error.message); return; }
+    row.file_path = path; row.file_name = file.name; row.file_size = file.size; row.mime = file.type || null;
+  }
+
+  var ins = await sb.from('hub_documents').insert(row);
+  if (ins.error) {
+    if (path) await sb.storage.from(bucket).remove([path]);
+    alert('Uloženie zlyhalo: ' + ins.error.message);
+    return;
+  }
+  document.getElementById('doc-title').value = '';
+  document.getElementById('doc-url').value = '';
+  document.getElementById('doc-file').value = '';
+  toggleAddForm(false);
+  loadDocs();
+}
+
+async function deleteDocument(id) {
+  var d = docById[id];
+  if (!d || !sb || !docSession) return;
+  if (!confirm('Naozaj chceš vymazať „' + d.title + '“?')) return;
+  if (d.kind === 'file' && d.file_path) await sb.storage.from('docs-' + d.audience).remove([d.file_path]);
+  var r = await sb.from('hub_documents').delete().eq('id', id);
+  if (r.error) alert('Mazanie zlyhalo: ' + r.error.message);
+  loadDocs();
+}
+
+// Odkazy: pripnutie (hviezdička) a kopírovanie
+(function(){
+  var box = document.querySelector('#tab-odkazy .links');
+  if (!box) return;
+  var KEY = 'hub_pins_links';
+  function pins(){ return getPins(KEY); }
+  [].slice.call(box.querySelectorAll(':scope > a')).forEach(function(a){
+    var w = document.createElement('div');
+    w.className = 'lk';
+    w.setAttribute('data-href', a.getAttribute('href'));
+    a.parentNode.insertBefore(w, a);
+    w.appendChild(a);
+    var act = document.createElement('div');
+    act.className = 'lk-act';
+    act.innerHTML = '<button type="button" class="lk-copy" title="Kopírovať odkaz" data-notr>📋</button><button type="button" class="lk-pin" title="Pripnúť navrch" data-notr>☆</button>';
+    w.appendChild(act);
+    act.querySelector('.lk-copy').addEventListener('click', function(e){ e.preventDefault(); copyToClip(a.href, this); });
+    act.querySelector('.lk-pin').addEventListener('click', function(e){ e.preventDefault(); togglePin(KEY, w.getAttribute('data-href')); apply(); });
+  });
+  function apply(){
+    var p = pins(), wr = [].slice.call(box.querySelectorAll(':scope > .lk'));
+    wr.forEach(function(w, i){ w.setAttribute('data-i', w.getAttribute('data-i') || i); });
+    wr.sort(function(x, y){
+      var px = p.indexOf(x.getAttribute('data-href')) > -1 ? 0 : 1, py = p.indexOf(y.getAttribute('data-href')) > -1 ? 0 : 1;
+      return px - py || (+x.getAttribute('data-i')) - (+y.getAttribute('data-i'));
+    });
+    wr.forEach(function(w){
+      box.appendChild(w);
+      var on = p.indexOf(w.getAttribute('data-href')) > -1;
+      var b = w.querySelector('.lk-pin');
+      b.textContent = on ? '★' : '☆';
+      b.title = on ? 'Odopnúť' : 'Pripnúť navrch';
+    });
+  }
+  apply();
+})();
+
+document.addEventListener('DOMContentLoaded', docsInit);
 </script>
 </body>
 </html>
